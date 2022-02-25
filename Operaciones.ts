@@ -8,10 +8,12 @@ export class operaciones {
     number1: number;
     number2: number;
 
-    sumar(): number {
-        return this.number1 += this.number2;
+    sumar = () => this.number1 + this.number2;
 
-    }
+
+    //     return this.number1 += this.number2;
+
+    // }
     restar(): number {
         return this.number1 - this.number2;
     }
