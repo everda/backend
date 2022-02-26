@@ -1,6 +1,6 @@
 const Desafio = (palabra, intervalo, cb) => {
     return new Promise((resolve) => {
-        setTimeout(() => {
+        
             const palabraAR = palabra.split(' ');
             let j = palabraAR.length;
             let i = 0
@@ -21,7 +21,7 @@ const Desafio = (palabra, intervalo, cb) => {
                 resolve([flag, j])
             }, (intervalo * j) + 1000);
 
-        }, 1000);
+        
 
     }
     )
