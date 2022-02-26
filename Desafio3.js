@@ -6,7 +6,7 @@ const Desafio = (palabra, intervalo, cb) => {
             let i = 0
             let flag = false;
 
-            const recorrePalabra = (palabra) => {
+            const recorrePalabra = () => {
                 if (i < j) {
                     console.log(palabraAR[i]);
                     i++;
