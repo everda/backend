@@ -1,7 +1,8 @@
 {
   "name": "curso-backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "",
+  "main": "desafio4-1.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,18 +10,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "typescript": "^4.5.5"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/everda/backend.git"
-  },
-  "bugs": {
-    "url": "https://github.com/everda/backend/issues"
-  },
-  "homepage": "https://github.com/everda/backend#readme",
-  "description": "",
   "dependencies": {
     "rxjs": "^7.5.4"
   }
