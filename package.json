@@ -2,7 +2,7 @@
   "name": "curso-backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "desafio4-1.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,7 +10,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "typescript": "^4.5.5"
+  "dependencies": {
+    "rxjs": "^7.5.4"
   }
 }
