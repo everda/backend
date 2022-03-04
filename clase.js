@@ -7,8 +7,8 @@ const server = http.createServer((peticion,respuesta)=>{
     price: (Math.random()*10000).toFixed(2),
     thumbnail: "Foto " + randomNumber}
 
-    respuesta.write(JSON.stringify(objeto));
-    respuesta.end();
+    // respuesta.write();
+    respuesta.end(JSON.stringify(objeto));
     // if(hora>=6&&hora<=12) respuesta.end("Buenos días");
     // if(hora>=13&&hora<=19) respuesta.end("Buenas tardes");
     // if(hora<=5||hora>=20) respuesta.end("Buenas noches");
