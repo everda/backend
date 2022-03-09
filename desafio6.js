@@ -8,7 +8,6 @@ class Archivo {
             if (fs.existsSync(this.nombreArchivo)) {
                 let content = await fs.promises.readFile(this.nombreArchivo, 'utf-8');
                 console.log(content)
-                //console.log(JSON.stringify(content));
             } else {
                 console.log([])
             }
@@ -22,29 +21,18 @@ class Archivo {
         try {
             if (fs.existsSync(this.nombreArchivo)) {
                 let oldObject = JSON.parse(await fs.promises.readFile(this.nombreArchivo, 'utf-8'));
-
                 let id = oldObject[oldObject.length - 1].id + 1;
                 let newRecord = { id: id, ...content };
-
                 let newContent = [...oldObject, newRecord];
-
                 await fs.promises.writeFile(this.nombreArchivo, JSON.stringify(newContent, null, '\t'), 'utf-8');
-
-
-
             } else {
-
                 let id = 1;
                 let newRecord = [{ id: id, ...content }];
-
                 await fs.promises.writeFile(this.nombreArchivo, JSON.stringify(newRecord, null, '\t'), 'utf-8');
             }
         }
         catch (error) {
             console.log(error);
-
-
-
         }
     }
 
@@ -55,7 +43,6 @@ class Archivo {
             } else {
                 console.log('No existe el archivo')
             }
-
         }
         catch (error) {
             console.log(error);
@@ -66,7 +53,6 @@ class Archivo {
 
 
 let archivo = new Archivo('productos.txt');
-//archivo.leer();
 
 const procesar = async () => {
     try {
@@ -78,11 +64,9 @@ const procesar = async () => {
     }
     catch (error) {
         console.log(error);
-
     }
 
 }
 
 procesar()
 
-//archivo.borrar()
