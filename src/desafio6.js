@@ -60,7 +60,7 @@ const procesar = async () => {
         await archivo.guardar({ title: "Producto 2", price: (Math.random() * 10000).toFixed(2), thumbnail: "Foto 2" });
         await archivo.guardar({ title: "Producto 3", price: (Math.random() * 10000).toFixed(2), thumbnail: "Foto 3" });
         await archivo.leer();
-        await archivo.borrar();
+        //await archivo.borrar();
     }
     catch (error) {
         console.log(error);
