@@ -12,12 +12,14 @@ let visitItem = 0;
 
 const getItems = async () => {
     try {
-        const items = JSON.parse(await fs.promises.readFile("productos.txt", "utf-8"))
+        const items = JSON.parse(await fs.promises.readFile("./Files/productos.txt", "utf-8"))
         return items;
     } catch (error) {
         console.log(error);
     }
 }
+
+
 
 
 /*End Point*/

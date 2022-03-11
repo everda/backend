@@ -52,7 +52,7 @@ class Archivo {
 }
 
 
-let archivo = new Archivo('productos.txt');
+let archivo = new Archivo('./Files/productos.txt');
 
 const procesar = async () => {
     try {
