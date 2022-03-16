@@ -9,7 +9,11 @@ const server = app.listen(port, () => {
 );
 let newId = 0;
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }))
+
 const instancia = new Producto();
+
 
 app.get("/api/productos/", (req, res) => {
     let items = instancia.getProducts();
@@ -22,7 +26,7 @@ app.get("/api/productos/", (req, res) => {
 });
 
 app.get("/api/productos/:id", (req, res) => {
-    let id = req.params.id;
+    let id = parseInt(req.params.id);
     let item = instancia.getProduct(id);
     if (item) {
         res.send(item);
@@ -34,11 +38,10 @@ app.get("/api/productos/:id", (req, res) => {
 
 app.post("/api/productos/guardar", (req, res) => {
     let id = newId;
-    let recibido = req.body;
-    console.log(recibido)
-    res.send( "HOLA" + console.log(recibido));
-    //let { title, price, thumbnail } = req.body;
-    // instancia.createProduct(id, title, price, thumbnail);
-    // newId++;
-    // res.send({ message: "Producto guardado", producto: instancia.getProduct(id) });
+    let { title, price, thumbnail } = req.body;
+    instancia.createProduct(id, title, price, thumbnail);
+    newId++;
+    res.send({ message: "Producto guardado", producto: instancia.getProduct(id) });
 });
+
+

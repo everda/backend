@@ -16,7 +16,7 @@ export class Producto {
         return this.products;
     }
     getProduct(id) {
-        let item = this.products.find(item => item.id === id);
+        let item = this.products.find(item => parseInt(item.id) === parseInt(id));
         return item;
     }
 
