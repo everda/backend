@@ -1,6 +1,7 @@
 import express from "express";
 import { Server } from "socket.io";
-import __dirname from "./utils.js";
+import util from "./utils.js";
+
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -14,6 +15,9 @@ let chatLog = [];
 
 io.on("connection", (socket) => {
     socket.on("mensaje", (data) => {
+        //console.log(data)
+
+        //console.log(util.formatedDate())
         chatLog.push(data); //agrego palabra al chat
         io.emit("log", chatLog); //io es global, socket es por el cliente que me envio
 
@@ -25,7 +29,7 @@ io.on("connection", (socket) => {
 
 
 
-app.use("/", express.static(__dirname + "/public"));
+app.use("/", express.static(util.__dirname + "/public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 
