@@ -17,6 +17,7 @@ input.addEventListener("keyup", (evt) => {
 
 /*Socket events*/
 socket.on("log", (data) => {
+    
     console.log(data);
     let div = document.createElement("div");
     div.innerHTML = data;
