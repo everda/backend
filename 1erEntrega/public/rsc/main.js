@@ -3,7 +3,8 @@
 
 const app = new AppController(
     new ProductoModel(),
-    new AppView()
+    new AppView(),
+    new CartModel()
 )
 
 // const cartApp = new AppController(

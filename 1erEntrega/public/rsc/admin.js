@@ -24,6 +24,10 @@ class Cart {
         this.products = data.products;
     }
 
+
+    addProduct(product) {
+    }
+
 }
 
 class CartModel {
