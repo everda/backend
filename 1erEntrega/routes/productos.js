@@ -46,7 +46,7 @@ Router.get('/:id', (req, res) => {
 
     } else {
         products.getProductbyId(id).then(data => {
-            console.log(data)
+            
             if (data === "" || data === null || data === undefined) {
                 res.status(404).send({
                     message: 'Producto no encontrado',
@@ -54,7 +54,7 @@ Router.get('/:id', (req, res) => {
                 })
             } else {
 
-                console.log(data)
+            
                 res.status(200).send({
                     message: 'Producto',
                     product: data

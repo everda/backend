@@ -1,3 +1,8 @@
+let url = 'localhost:8080';
+let cartId = 0;
+
+
+
 // CLASE PRODUCTO
 class Producto {
     //CONSTRUCTOR DE CLASE PRODUCTO
@@ -9,142 +14,259 @@ class Producto {
         this.vendido = false;
     }
     //MÉTODO PARA SUMAR IVA
-    sumaIva() {
-        this.precio = this.precio * 1.21;
-    }
-    //MÉTODO PARA VENDER EL PRODUCTO
-    vender() {
-        this.vendido = true;
-    }
+
 }
 
 class Cart {
     constructor(data) {
         this.id = data.id;
-        this.nombre = data.nombre;
-        this.precio = data.precio;
-        this.cantidad = data.cantidad;
+        this.timestamp = data.timestamp;
+        this.products = data.products;
     }
+
 }
 
 class CartModel {
     constructor() {
-        
+        const getCartid = async (id) => {
+            if (cartId === 0) {
+                const response = await fetch(`http://${url}/api/carrito/`, {
+                    method: 'POST'
+                });
+                const data = await response.json();
 
-        this.id = data.id;
-        this.nombre = data.nombre;
-        this.precio = data.precio;
-        this.cantidad = data.cantidad;
-    }   
+                cartId = data.carrito;
+            }
+
+            return cartId;
+        }
+
+
+    }
+    //MÉTODO PARA CREAR CARRITO
+
+    //MÉTODO PARA AGREGAR PRODUCTO AL CARRITO
+    addProduct(product) {
+        this.cart.products.push(product);
+
+
+        getCartid = async (id) => {
+            if (cartId === 0) {
+                const response = await fetch(`http://${url}/api/carrito/`, {
+                    method: 'POST'
+                });
+                const data = await response.json();
+
+                cartId = data.carrito;
+            }
+
+            return cartId;
+
+
+
+        }
+
+
+    }
 }
 
-// MODELO PRODUCTO
+// MODELOS
 class ProductoModel {
-    //CONSTRUCTOR DEL MODELO PRODUCTO
     constructor() {
-        //OBTENEMOS EL ARRAY DE PRODUCTOS PARSEANDO DESDE EL JSON SI EXISTE
-        const productos = JSON.parse(localStorage.getItem('productos')) || [];
-        const productos = getProducts();
-        //USAMOS MAP PARA CREAR UN NUEVO ARRAY DE OBJETOS DE TIPO PRODUCTO
-        this.productos = productos.map(producto => new Producto(producto));
+        const getProducts = async () => {
+            const response = await fetch(`http://${url}/api/productos/all`, {
+                method: 'GET'
+            });
+            const data = await response.json();
+            data.forEach(element => {
+                this.productos.push(new Producto(element));
+            });
+        }
+        getProducts()
     }
-    //MÈTODO PARA GUARDAR EL ARRAY DE PRODUCTOS EN STORAGE
-    guardarProductos() {
-        localStorage.setItem('productos', JSON.stringify(this.productos));
+
+
+
+    //MÊTODO PARA CREAR UN PRODUCTO
+    createProduct = async (product) => {
+        const response = await fetch(`http://${url}/api/productos`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(product)
+        });
+        const data = await response.json();
+        return data;
     }
-    //MÊTODO PARA AGREGAR UN PRODUCTO AL ARRAY DE PRODUCTOS
-    agregarProducto(producto) {
-        this.productos.push(new Producto(producto));
-        this.guardarProductos();
-    }
+
+
+
+
+
     //MÊTODO PARA ELIMINAR UN PRODUCTO DEL ARRAY DE PRODUCTOS
-    eliminarProducto(id) {
-        this.productos = this.productos.filter(producto => producto.id !== id);
-        this.guardarProductos();
+    deleteProduct = async (id) => {
+        const response = await fetch(`http://${url}/api/productos/${id}`, {
+            method: 'DELETE'
+        })
+        const data = await response.json();
+        return data;
     }
     //MÊTODO PARA BUSCAR UN PRODUCTO DEL ARRAY DE PRODUCTOS
-    buscarProducto(id) {
-        return this.productos.find(producto => producto.id === id);
+    getProductbyId = async (id) => {
+        const response = await fetch(`http://${url}/api/productos/${id}`, {
+            method: 'GET'
+        });
+        const data = await response.json();
+        return JSON.parse(data);
+    }
+
+    //MÊTODO PARA ACTUALIZAR UN PRODUCTO DEL ARRAY DE PRODUCTOS
+    updateProduct = async (id, product) => {
+        const response = await fetch(`http://${url}/api/productos/${id}`, {
+            method: 'PUT',
+            body: JSON.stringify(product),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const data = await response.json();
+        return JSON.parse(data);
+    }
+
+
+    addToCart = async (id, cartId) => {
+        const response = await fetch(`http://${url}/api/productos/${id}`, {
+            method: 'GET'
+        });
+        const product = await response.json();
+        console.log(product.product)
+
+        const response2 = await fetch(`http://${url}/api/carrito/${cartId}/productos`, {
+            method: 'POST',
+            body: JSON.stringify(product.product),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const data = await response2.json();
+        console.log(data)
+        return data;
+    }
+
+
+
+}
+// VIEW PRODUCTO
+class AppView {
+    //MÊTODO PARA CREAR LA VISTA DE AGREGAR PRODUCTO
+
+    home(padre, datos, callback, cartId) {
+
+        let html = document.getElementById(padre);
+        let div = document.createElement('div');
+        div.className = 'container';
+        div.innerHTML = `
+        <h4 class="card-title">Productos</h4>
+        <div class="row flex-d">
+
+                    ${datos.products.map(product => `                    
+                    <div class="card">
+                    <div class="card-header">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <img src="${product.imagen}" class="img-thumbnail" alt="">
+                            </div>
+                            <div class="col-md-9">
+                                <h4 class="card-title">${product.nombre}</h4>
+                                <p class="card-text">${product.descripcion}</p>
+                                <p class="card-text">Precio: $${product.precio}</p>
+                                <button class="btn btn-primary id = "btn" key ="${product.id}" >Agregar al carrito</button>
+                            </div>
+                        </div>
+                        </div>
+                    
+                    </div>
+                    </div>
+                    `).join('')}
+        </div>`
+        html.appendChild(div);
+        let btn = document.getElementsByClassName('btn');
+        for (let i = 0; i < btn.length; i++) {
+            btn[i].addEventListener('click', () => {
+                callback(
+                    btn[i].getAttribute('key'), cartId
+                )
+            });
+
+
+
+        }
+
+
+
+
+    }
+
+
+    users(padre, callback) {
+        const html = getElementbyId(padre);
+        html.innerHTML = `<section>
+                            <h1>Vista Users</h1>
+                            <input type ="text"   placeholder="Nombre">
+                            <input type ="number" placeholder="Precio">
+                            <button id="btnEnviar">ENVIAR</button>
+                          </section>        	`;
+        getElementbyId("btnEnviar").addEventListener("click", callback);
+    }
+
+
+    //MÊTODO PARA CREAR LA VISTA DE LISTADO DE PRODUCTOS
+    admin(padre, callback) {
+        const html = getElementbyId(padre);
+        html.innerHTML = `<section>
+                            <h1>Vista Admin</h1>
+                            <input type ="text"   placeholder="Nombre">
+                            <input type ="number" placeholder="Precio">
+                            <button id="btnEnviar">ENVIAR</button>
+                          </section>        	`;
+        getElementbyId("btnEnviar").addEventListener("click", callback);
+    }
+
+    //MÊTODO PARA CREAR LA VISTA DE BUSQUEDA DE PRODUCTO
+    cart(padre, callback) {
+        const html = getElementbyId(padre);
+        html.innerHTML = `<section>
+                            <h1>Vista cart</h1>
+                            <input type ="text"   placeholder="Nombre">
+                            <input type ="number" placeholder="Precio">
+                            <button id="btnEnviar">ENVIAR</button>
+                          </section>        	`;
+        getElementbyId("btnEnviar").addEventListener("click", callback);
     }
 }
 
-// VIEW PRODUCTO
-class ProductoView {
-    //MÊTODO PARA CREAR LA VISTA DE AGREGAR PRODUCTO
-    agregarProducto(padre, callback) {
-        $(padre).html(`
-            <section>
-                <h1>AGREGAR PRODUCTO</h1>
-                <input type ="text"   placeholder="Nombre">
-                <input type ="number" placeholder="Precio">
-                <button id="btnEnviar">ENVIAR</button>
-            </section>
-        `);
-        $("#btnEnviar").click(callback);
-    }
-    //MÊTODO PARA CREAR LA VISTA DE LISTADO DE PRODUCTOS
-    listarProductos(padre, data, callback) {
-        let html = '';
-        for (const producto of data) {
-            html += `<div>
-                        <input value="${producto.id}" type="hidden">
-                        <h4>  Producto: ${producto.nombre}</h4>
-                        <b> $ ${producto.precio}</b>
-                        <button class="btnComprar">Comprar</button>
-                    </div>`;
-        }
-        $(padre).html(html);
-        $(".btnComprar").click(callback);
-    }
-    //MÊTODO PARA CREAR LA VISTA DE BUSQUEDA DE PRODUCTO
-    buscarProducto(padre, callback) {
-        $(padre).html(`
-            <section>
-                <h1>BUSCAR PRODUCTO</h1>
-                <input type ="number">
-                <button id="btnBuscar">Buscar</button>
-            </section>
-        `);
-        $("#btnBuscar").click(callback);
-    }
-}
+
 // CONTROLLER PRODUCTO
-class ProductoController {
+class AppController {
     //CONSTRUCTOR DEL CONTROLADOR ASOCIANDO UN MODELO Y VISTA
-    constructor(productoModel, productoView) {
-        this.productoModel = productoModel;
-        this.productoView = productoView;
+    constructor(model, view) {
+        this.model = model;
+        this.view = view;
     }
     //MÊTODO PARA GENERAR CONSTROLAR LA VISTA, EL MODELO Y EL EVENTO AL AGREGAR UN PRODUCTO
-    agregar(app) {
-        this.productoView.agregarProducto(app, (event) => {
-            let hijos = $(event.target).parent().children();
-            this.productoModel.agregarProducto({
-                id: this.productoModel.productos.length + 1,
-                nombre: hijos[1].value,
-                precio: hijos[2].value,
-            });
-        });
-    }
-    //MÊTODO PARA GENERAR CONSTROLAR LA VISTA, EL MODELO Y EL EVENTO AL LISTAR PRODUCTOS
-    listar(app) {
-        this.productoView.listarProductos(app,
-            this.productoModel.productos,
-            (event) => {
-                let hijos = $(event.target).parent().children();
-                console.log(hijos[0].value);
-            });
-    }
-    //MÊTODO PARA GENERAR CONSTROLAR LA VISTA, EL MODELO Y EL EVENTO AL BUSCAR UN PRODUCTO
-    buscar(app) {
-        this.productoView.buscarProducto(app, (event) => {
-            let hijos = $(event.target).parent().children();
-            let id = parseInt(hijos[1].value);
-            let encontrado = this.productoModel.buscarProducto(id);
-            console.log(encontrado);
-        });
-    }
+    home(app) {
+        const start = async () => {
+
+            this.view.home(app, this.model, this.model.addToCart, cartId);
+        };
+        start()
+            ;
+    };
 }
+
+
 //COMPONENTE A EMPLEAR CUANDO NO SE ENCUENTRA LA PAGINA SOLICITADA
 const ErrorComponent = (padre) => {
     $(padre).html("<h2>Error 404</h2>");

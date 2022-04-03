@@ -1,22 +1,28 @@
 //EJEMPLO SPA PLANTILLA
 
 
-const app = new ProductoController(
+const app = new AppController(
     new ProductoModel(),
-    new ProductoView()
+    new AppView()
 )
 
+// const cartApp = new AppController(
+//     new CarritoModel(),
+//     new AppView()
+// )
+
 const routes = [
-    {path: '/', action: 'agregar'},
-    {path: '/users', action: 'users'},
-    {path: '/admin', action: 'admin'}
+    { path: '/', action: 'home' },
+    { path: '/products', action: 'productsView' },
+    { path: '/products/edit', action: 'productsAdmin' },
+    { path: '/cart', action: 'cart' }
 ];
 
 const ErrorComponent2 = (padre) => {
     $(padre).html("<h2>Error 404</h2>");
 }
 
-const parseLocation = () => 
+const parseLocation = () =>
     location.hash.slice(1).toLowerCase() || '/';
 
 
@@ -25,18 +31,21 @@ const findActionByPath = (path, routes) =>
 
 const router = () => {
     const path = parseLocation();
-    const { action = 'error' } = 
+    const { action = 'error' } =
         findActionByPath(path, routes) || {};
 
-    switch(action) {
-        case 'user':
-            app.agregar("#app");
+    switch (action) {
+        case 'home':
+            app.home("#app");
             break;
-        case 'admin':
-            app.listar("#app");
+        case 'productsView':
+            //app.userView("#app");
             break;
-        case 'buscar':
-            app.buscar("#app");
+        case 'productsAdmin':
+            //app.adminView("#app");
+            break;
+        case 'cart':
+            //cartApp.home("#app");
             break;
         default:
             ErrorComponent2("#app");
@@ -46,10 +55,9 @@ const router = () => {
 
 }
 
-$( window ).on('load', function() {
-    router();
-});
 
-$( window ).on('hashchange', function() {
+
+window.onload = () => {
     router();
-});
+    window.addEventListener('hashchange', router);
+}

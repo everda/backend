@@ -16,5 +16,23 @@
 		"foto": "url",
 		"precio": 100,
 		"stock": 100
+	},
+	{
+		"id": 3,
+		"nombre": "producto2",
+		"descripcion": "desc2",
+		"codigo": "12",
+		"foto": "url",
+		"precio": 200,
+		"stock": 120
+	},
+	{
+		"id": 4,
+		"nombre": "producto3",
+		"descripcion": "desc4",
+		"codigo": "12",
+		"foto": "url",
+		"precio": 1100,
+		"stock": 120
 	}
 ]
