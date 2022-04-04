@@ -28,3 +28,7 @@ app.use(express.urlencoded({ extended: true }))
 
 app.use("/api/carrito", cartRoute);
 app.use("/api/productos", productRoute);
+app.all("*", (req, res) => {
+    res.status = 404;
+    res.send("404 Not Found");
+});

@@ -3,17 +3,11 @@ let cartId = 0;
 
 
 
-// CLASE PRODUCTO
 class Producto {
-    //CONSTRUCTOR DE CLASE PRODUCTO
     constructor(data) {
-        this.id = data.id
-        if (data.nombre)
-            this.nombre = data.nombre.toUpperCase();
-        this.precio = parseFloat(data.precio);
-        this.vendido = false;
+        this.id = data.id;
+
     }
-    //MÉTODO PARA SUMAR IVA
 
 }
 
@@ -26,70 +20,66 @@ class Cart {
 
 
     addProduct(product) {
+        this.products.push(product);
     }
 
 }
 
 class CartModel {
     constructor() {
-        const getCartid = async (id) => {
-            if (cartId === 0) {
-                const response = await fetch(`http://${url}/api/carrito/`, {
-                    method: 'POST'
-                });
-                const data = await response.json();
+        
+    }
 
-                cartId = data.carrito;
-            }
+    getCart = async (id) => {
+        if (cartId === 0) {
+            const response = await fetch(`http://${url}/api/carrito/`, {
+                method: 'POST'
+            });
+            const data = await response.json();
+            this.cart = data.carrito;
+        }
+    }
+    getCartid();
+}
+//MÉTODO PARA CREAR CARRITO
 
-            return cartId;
+//MÉTODO PARA AGREGAR PRODUCTO AL CARRITO
+addProduct(product) {
+
+
+    getCartid = async (id) => {
+        if (cartId === 0) {
+            const response = await fetch(`http://${url}/api/carrito/`, {
+                method: 'POST'
+            });
+            const data = await response.json();
+
+            cartId = data.carrito;
         }
 
-
+        return cartId;
     }
-    //MÉTODO PARA CREAR CARRITO
-
-    //MÉTODO PARA AGREGAR PRODUCTO AL CARRITO
-    addProduct(product) {
-        this.cart.products.push(product);
 
 
-        getCartid = async (id) => {
-            if (cartId === 0) {
-                const response = await fetch(`http://${url}/api/carrito/`, {
-                    method: 'POST'
-                });
-                const data = await response.json();
-
-                cartId = data.carrito;
-            }
-
-            return cartId;
-
-
-
-        }
-
-
-    }
+}
 }
 
 // MODELOS
 class ProductoModel {
     constructor() {
-        const getProducts = async () => {
-            const response = await fetch(`http://${url}/api/productos/all`, {
-                method: 'GET'
-            });
-            const data = await response.json();
-            data.forEach(element => {
-                this.productos.push(new Producto(element));
-            });
-        }
-        getProducts()
+        this.productos = [];
     }
 
-
+    getProducts = async () => {
+        const response = await fetch(`http://${url}/api/productos/all`, {
+            method: 'GET'
+        });
+        const data = await response.json();
+        data.products.forEach(element => {
+            this.productos.push(new Producto(element));
+        })
+        return this.productos;
+    };
 
     //MÊTODO PARA CREAR UN PRODUCTO
     createProduct = async (product) => {
@@ -164,17 +154,14 @@ class ProductoModel {
 // VIEW PRODUCTO
 class AppView {
     //MÊTODO PARA CREAR LA VISTA DE AGREGAR PRODUCTO
-
     home(padre, datos, callback, cartId) {
-
         let html = document.getElementById(padre);
         let div = document.createElement('div');
         div.className = 'container';
         div.innerHTML = `
         <h4 class="card-title">Productos</h4>
         <div class="row flex-d">
-
-                    ${datos.products.map(product => `                    
+                    ${datos.map(product => `                    
                     <div class="card">
                     <div class="card-header">
                     <div class="card-body">
@@ -262,8 +249,9 @@ class AppController {
     //MÊTODO PARA GENERAR CONSTROLAR LA VISTA, EL MODELO Y EL EVENTO AL AGREGAR UN PRODUCTO
     home(app) {
         const start = async () => {
-
-            this.view.home(app, this.model, this.model.addToCart, cartId);
+            const data = await this.model.getProducts();
+            console.log(data)
+            this.view.home(app, data, this.model.addToCart, cartId);
         };
         start()
             ;
