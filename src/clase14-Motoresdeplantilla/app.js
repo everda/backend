@@ -14,6 +14,7 @@ const server = app.listen(port, () => {
 const io = new Server(server);
 
 app.use("/", express.static(__dirname + "/public"));
+console.log(__dirname)
 
 io.on("connection", (socket) => {
     console.log("New user connected");

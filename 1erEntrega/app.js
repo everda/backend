@@ -1,34 +1,40 @@
 import express from "express";
-import { Server } from "socket.io";
 import __dirname from "./utils.js";
 import cartRoute from "./Routes/Carrito.js";
-import productRoute from "./Routes/Productos.js";
+import productRoute from "./routes/productos.js";
+import viewsRouter from "./routes/viewsRouter.js";
+import handlebars from "express-handlebars";
+
 
 const app = express();
 const port = process.env.PORT || 8080;
 const server = app.listen(port, () => {
     console.log(`Listening service on port ${port}`);
-    
-}
-);
+
+});
 
 
 
+app.engine('handlebars', handlebars.engine());
+app.set('views', __dirname + '/views');
+app.set('view engine', 'handlebars');
 
-const io = new Server(server);
+app.use('/', viewsRouter);
 
-let admin = false
-
-console.log(__dirname)
-
-app.use("/", express.static(__dirname + "/public"));
+//app.use("/", express.static(__dirname + "/public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
+app.use((req, res, next) => {
+    console.log("se solicito servicio desde:" + req.method + " - " + req.url);
+    next();
+}
+)
 
 
-app.use("/api/carrito", cartRoute);
-app.use("/api/productos", productRoute);
+app.use("/api/carts", cartRoute);
+app.use("/api/products", productRoute);
 app.all("*", (req, res) => {
     res.status = 404;
-    res.send("404 Not Found");
+    res.send({ error: -2,
+        descipcion: `ruta ${req.url} y metodo ${req.method} no encontrada`});
 });
