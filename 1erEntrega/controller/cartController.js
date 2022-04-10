@@ -110,6 +110,7 @@ const deleteCartId = (req, res) => {
 //(Funcion del POST/:id)
 const addProduct = (req, res) => {
     let id = parseInt(req.params.cid);
+    console.log(req.body)
     let product = req.body;
     let cartId = cartContent.find(cart => cart.id === id);
     if (id === undefined) {
