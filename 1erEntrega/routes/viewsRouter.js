@@ -47,13 +47,10 @@ Router.get('/admin', (req, res) => {
     //     .catch(error => console.log(error));
 })
 
-Router.get('/cart/:cid', (req, res) => {
-    console.log("hola desde viewRouter")
-    console.log(req.params.cid)
-    let cartId = parseInt(req.params.cid);
-    cart.getCartPrdoducts(cartId).then(data => {
+Router.get('/cart/', (req, res) => {
+    cart.getCart().then(data => {
         console.log(data)
-        res.render('cart.handlebars');
+        res.render('cart.handlebars', {  data });
     })
     // let products = [];
     // fetch('http://localhost:8080/api/cart')
