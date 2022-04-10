@@ -40,7 +40,7 @@ export default class Cart {  // Clase Producto
                     return cartId.products;
 
                 }
-            }   
+            }
         } catch (error) {
             console.log(error);
         }

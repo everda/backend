@@ -19,7 +19,7 @@ app.engine('handlebars', handlebars.engine());
 app.set('views', __dirname + '/views');
 app.set('view engine', 'handlebars');
 
-app.use('/', viewsRouter);
+
 
 app.use("/", express.static(__dirname + "/public"));
 app.use(express.json());
@@ -31,6 +31,7 @@ app.use((req, res, next) => {
 )
 
 
+app.use('/', viewsRouter);
 app.use("/api/carts", cartRoute);
 app.use("/api/products", productRoute);
 app.all("*", (req, res) => {

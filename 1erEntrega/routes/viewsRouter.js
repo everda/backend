@@ -47,11 +47,26 @@ Router.get('/admin', (req, res) => {
     //     .catch(error => console.log(error));
 })
 
-Router.get('/cart/', (req, res) => {
-    cart.getCart().then(data => {
+Router.get('/cart/:id', (req, res) => {
+
+    // res.render('cart.handlebars');
+
+    let id = parseInt(req.params.id);
+    console.log(id)
+    console.log("entro al carrito")
+
+    cart.getCartPrdoducts(id).then(data => {
         console.log(data)
-        res.render('cart.handlebars', {  data });
+        res.render('cart.handlebars', { products: data });
     })
+        .catch(error => console.log(error));
+
+
+    // cart.getCart().then(data => {
+    //     console.log(data)
+    //     res.render('cart.handlebars', {  data });
+    // })
+
     // let products = [];
     // fetch('http://localhost:8080/api/cart')
     //     .then(response => response.json())
