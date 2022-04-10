@@ -11,6 +11,7 @@ let productsContent = [];
 
 const updateProductsArray = async () => {
     productsContent = JSON.parse(await products.getProducts())
+    return productsContent
 
     //     //console.log(JSON.parse(productsContent))
 }

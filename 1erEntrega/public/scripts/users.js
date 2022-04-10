@@ -6,7 +6,16 @@ console.log("hola")
 
 let btn = document.getElementsByClassName("btn");
 
-let cartId = 0
+
+let cartId = sessionStorage.getItem("cartId");
+console.log(cartId)
+if (!cartId) {
+    cartId = 0
+}
+    
+        
+    
+
 const getCartId = async () => {
     try {
         let response = await fetch(`http://${url}/api/carts`, {
@@ -62,6 +71,7 @@ const addProduct = async (id) => {
         if (cartId === 0) {
             let cartId = await getCartId()
             console.log(cartId)
+            sessionStorage.setItem("cartId", cartId)
 
         }
         console.log(cartId)

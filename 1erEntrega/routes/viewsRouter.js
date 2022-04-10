@@ -1,10 +1,15 @@
 import express from "express";
-import prodController from '../controller/productController.js';
-import fetch from "node-fetch";
+import productController from "../controller/productController.js";
+import cartController from "../controller/cartController.js";
+import cartModel from "../models/cartModel.js";
+import __dirname from "../utils.js";
 
 
+let cart = new cartModel(__dirname + '/Files/carrito.txt');
+let cartContent = [];
 
 //console.log(prodController.productsContent)
+
 
 
 const Router = express.Router();
@@ -12,18 +17,55 @@ const Router = express.Router();
 Router.get('/', (req, res) => { res.render('home.handlebars') });
 
 Router.get('/users', (req, res) => {
-    let products = [];
-    fetch('http://localhost:8080/api/products')
-        .then(response => response.json())
-        .then(data => {
-            products = data.products;
-            console.log(products)
-            res.render('users.handlebars', { products });
-        })
-        .catch(error => console.log(error));
-
-
+    productController.updateProductsArray().then(data => {
+        console.log(data)
+        res.render('users.handlebars', { products: data });
+    })
+    // let products = [];
+    // fetch('http://localhost:8080/api/products')
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         products = data.products;
+    //         console.log(products)
+    //         res.render('users.handlebars', { products });
+    //     })
+    //     .catch(error => console.log(error));
 })
+
+Router.get('/admin', (req, res) => {
+    productController.updateProductsArray().then(data => {
+        res.render('admin.handlebars', { products: data });
+    })
+
+    // fetch('http://localhost:8080/api/products')
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         products = data.products;
+    //         console.log(products)
+    //         res.render('admin.handlebars', { products });
+    //     })
+    //     .catch(error => console.log(error));
+})
+
+Router.get('/cart/:cid', (req, res) => {
+    console.log("hola desde viewRouter")
+    console.log(req.params.cid)
+    let cartId = parseInt(req.params.cid);
+    cart.getCartPrdoducts(cartId).then(data => {
+        console.log(data)
+        res.render('cart.handlebars');
+    })
+    // let products = [];
+    // fetch('http://localhost:8080/api/cart')
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         cart = data.cart;
+    //         console.log(products)
+    //         res.render('cart.handlebars', { cart });
+    //     })
+    //     .catch(error => console.log(error));
+})
+
 
 
 export default Router;

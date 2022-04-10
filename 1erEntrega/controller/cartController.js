@@ -6,6 +6,7 @@ let cart = new Cart(__dirname + '/Files/carrito.txt');
 let cartContent = [];
 
 const updateCart = () => {
+    console.log("hola")
     cart.getCart().then(data => {
 
         if (data.length == 0) {
@@ -14,6 +15,7 @@ const updateCart = () => {
 
             cartContent = JSON.parse(data);
         }
+        return cartContent
 
     }).catch(err => {
         console.log(err);
@@ -219,5 +221,6 @@ export default {
     getCartId,
     deleteCartId,
     addProduct,
-    deleteProduct
+    deleteProduct,
+    updateCart
 };
