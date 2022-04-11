@@ -1,4 +1,5 @@
 import express from "express";
+import viewsController from "../controller/viewsController.js";
 import productController from "../controller/productController.js";
 import cartController from "../controller/cartController.js";
 import cartModel from "../models/cartModel.js";
@@ -32,20 +33,24 @@ Router.get('/users', (req, res) => {
     //     .catch(error => console.log(error));
 })
 
-Router.get('/admin', (req, res) => {
-    productController.updateProductsArray().then(data => {
-        res.render('admin.handlebars', { products: data });
-    })
+Router.get('/admin', viewsController.showAdminview);
+Router.get('/admin/:id', viewsController.showEditItemview);
 
-    // fetch('http://localhost:8080/api/products')
-    //     .then(response => response.json())
-    //     .then(data => {
-    //         products = data.products;
-    //         console.log(products)
-    //         res.render('admin.handlebars', { products });
-    //     })
-    //     .catch(error => console.log(error));
-})
+
+// (req, res) => {
+//     productController.updateProductsArray().then(data => {
+//         res.render('admin.handlebars', { products: data });
+//     })
+
+//     // fetch('http://localhost:8080/api/products')
+//     //     .then(response => response.json())
+//     //     .then(data => {
+//     //         products = data.products;
+//     //         console.log(products)
+//     //         res.render('admin.handlebars', { products });
+//     //     })
+//     //     .catch(error => console.log(error));
+// })
 
 Router.get('/cart/:id', (req, res) => {
 
@@ -56,7 +61,7 @@ Router.get('/cart/:id', (req, res) => {
     console.log("entro al carrito")
 
     cart.getCartPrdoducts(id).then(data => {
-        console.log(data)
+
         res.render('cart.handlebars', { products: data });
     })
         .catch(error => console.log(error));

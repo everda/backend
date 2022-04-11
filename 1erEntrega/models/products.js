@@ -8,6 +8,8 @@ export default class Products {  // Clase Producto
 
     getProducts = async () => {
         try {
+
+
             if (fs.existsSync(this.nombreArchivo)) {
                 let content = fs.readFileSync(this.nombreArchivo, 'utf-8');
                 return content;
@@ -29,10 +31,28 @@ export default class Products {  // Clase Producto
 
     }
 
+    getProductById = async (id) => {
+        try {
+            let products = JSON.parse(await this.getProducts());
+            let product = products.find(product => product.id == id);
+            console.log(product)
+            if (id === undefined) {
+                throw new Error('Faltan datos');
+            } else {
+                if (!product) {
+                    throw new Error('Producto inexistente');
+                } else {
+                    return product;
+                }
+            }
+        }
+        catch (error) {
+            console.log(error);
+        }
 
+
+    }
 }
-
-
 
 
     // createProduct = async (product) => {

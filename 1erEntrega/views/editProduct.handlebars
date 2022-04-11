@@ -1,0 +1,28 @@
+<div>
+    <div> 
+        <h1>producto</h1>
+
+        <div class="container">
+            <h4>{{product.title}}</h4>
+            <p>descripcion: {{product.description}}</p>
+            <p>precio:{{product.price}}</p>
+            <p>stock: {{product.stock}}</p>
+            <p>code: {{product.code}}</p>
+            <p>thumbnail: {{product.thumbnail}}</p>
+    </div>
+    <form id="editForm"></form>
+    <label for="title">Title</label>
+    <input type="text" id="title" name="title" placeholder="title">
+    <label for="description">Descripcion</label>
+    <input type="text" id="description" name="description" placeholder="description">
+    <label for="code">Code</label>
+    <input type = "text" id ="code" name="code" placeholder="code">
+    <label for="thumbnail">url foto</label>
+    <input type="text" id="thumbnail" name="thumbnail" placeholder="thumbnail">
+    <label for="price">Precio</label>
+    <input type="text" id="price" name="price" placeholder="price">
+    <label for="stock">Stock</label>
+    <input type="text" id="stock" name="stock" placeholder="stock">
+    <button id="editProduct">Editar Producto</button>
+</div>
+<script src="../scripts/editProd.js"></script>
