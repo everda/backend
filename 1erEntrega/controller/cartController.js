@@ -22,6 +22,7 @@ const updateCart = () => {
 }
 updateCart();
 
+
 //Funciones del controlador
 
 //Crear un carro (Funcion del POST)
@@ -33,7 +34,7 @@ const createCart = (req, res) => {
         products: []
     });
     cart.saveCart(cartContent).then(() => {
-        
+
         res.status(200).send({
             message: 'Carrito creado',
             cart: id
@@ -75,7 +76,7 @@ const getCartId = (req, res) => {
 //(Funcion del DELETE)
 const deleteCartId = (req, res) => {
     let id = parseInt(req.params.cid);
-    
+
     let cartId = cartContent.find(cart => cart.id === id);
     if (id === undefined) {
         res.status(400).send({
@@ -109,6 +110,7 @@ const deleteCartId = (req, res) => {
 //Incorporar un producto al carro
 //(Funcion del POST/:id)
 const addProduct = (req, res) => {
+
     let id = parseInt(req.params.cid);
     let product = req.body;
     let cartId = cartContent.find(cart => cart.id === id);
@@ -129,7 +131,8 @@ const addProduct = (req, res) => {
             if (productId) {
                 productId.quantity += 1;
             } else {
-                cartContent[id - 1].products.push({ id: product.id, quantity: 1 });
+                let cartArray = cartContent.findIndex(cart => cart.id === id);
+                cartContent[cartArray].products.push({ id: product.id, quantity: 1 });;
             }
             cart.saveCart(cartContent).then(() => {
                 res.status(200).send({
@@ -171,7 +174,7 @@ const deleteProduct = (req, res) => {
             let cartProducts = cartId.products;
             let productId = cartProducts.find(prod => parseInt(prod.id) === parseInt(product));
             if (productId) {
-                
+
                 if (productId.quantity > 1) {
                     productId.quantity -= 1;
                 } else {
