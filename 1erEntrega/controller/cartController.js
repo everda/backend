@@ -4,6 +4,10 @@ import __dirname from '../utils.js';
 // //Inicializo el carro
 let cart = new Cart(__dirname + '/Files/carrito.txt');
 let cartContent = [];
+let id = 0
+
+
+
 
 const updateCart = () => {
     cart.getCart().then(data => {
@@ -27,12 +31,16 @@ updateCart();
 
 //Crear un carro (Funcion del POST)
 const createCart = (req, res) => {
-    let id = cartContent.length + 1;
+    id = id + 1;
+    console.log(cartContent)
+    console.log(id)
+    console.log(id)
     cartContent.push({
         id: id,
         timestamp: new Date(),
         products: []
     });
+    
     cart.saveCart(cartContent).then(() => {
 
         res.status(200).send({

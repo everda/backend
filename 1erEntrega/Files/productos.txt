@@ -1,0 +1,42 @@
+[
+	{
+		"id": 2,
+		"timestamp": 1649788854327,
+		"title": "productoModificado",
+		"description": "descriptionMdoificada",
+		"code": "75",
+		"thumbnail": "http://placeimg.com/640/480",
+		"price": 10,
+		"stock": 100
+	},
+	{
+		"id": 3,
+		"timestamp": 1649788854343,
+		"title": "Mouse",
+		"description": "streamline B2B action-items",
+		"code": "i",
+		"thumbnail": "http://placeimg.com/640/480",
+		"price": 124.47,
+		"stock": 100
+	},
+	{
+		"id": 3,
+		"timestamp": 1649788855736,
+		"title": "Cheese",
+		"description": "orchestrate impactful initiatives",
+		"code": "3",
+		"thumbnail": "http://placeimg.com/640/480",
+		"price": 303.6,
+		"stock": 100
+	},
+	{
+		"id": 4,
+		"timestamp": 1649788855748,
+		"title": "Salad",
+		"description": "deliver dynamic systems",
+		"code": "w",
+		"thumbnail": "http://placeimg.com/640/480",
+		"price": 389.52,
+		"stock": 100
+	}
+]

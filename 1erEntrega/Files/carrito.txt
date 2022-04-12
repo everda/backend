@@ -1,0 +1,36 @@
+[
+	{
+		"id": 2,
+		"timestamp": "2022-04-12T18:40:55.784Z",
+		"products": [
+			{
+				"id": 1,
+				"quantity": 1
+			},
+			{
+				"id": 2,
+				"quantity": 2
+			}
+		]
+	},
+	{
+		"id": 3,
+		"timestamp": "2022-04-12T18:40:55.878Z",
+		"products": [
+			{
+				"id": 1,
+				"quantity": 1
+			}
+		]
+	},
+	{
+		"id": 4,
+		"timestamp": "2022-04-12T18:40:55.939Z",
+		"products": []
+	},
+	{
+		"id": 5,
+		"timestamp": "2022-04-12T18:40:55.953Z",
+		"products": []
+	}
+]
