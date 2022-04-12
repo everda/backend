@@ -31,6 +31,8 @@ export default class Cart {  // Clase Producto
         try {
             let cart = JSON.parse(await this.getCart());
             let cartId = cart.find(cart => cart.id === id);
+            
+
             if (id === undefined) {
                 throw new Error('Faltan datos');
             } else {

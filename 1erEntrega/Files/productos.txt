@@ -10,10 +10,10 @@
 		"stock": 100
 	},
 	{
-		"id": 3,
+		"id": 2,
 		"timestamp": 1649342782653,
-		"title": "producto3",
-		"description": "description3",
+		"title": "producto2",
+		"description": "description2",
 		"code": "75",
 		"thumbnail": "foto del producto",
 		"price": 100,
@@ -32,8 +32,8 @@
 	{
 		"id": 4,
 		"timestamp": 1649367625848,
-		"title": "producto3",
-		"description": "description3",
+		"title": "producto4",
+		"description": "description4",
 		"code": "75",
 		"thumbnail": "foto del producto",
 		"price": 155500,
@@ -42,8 +42,8 @@
 	{
 		"id": 5,
 		"timestamp": 1649368545802,
-		"title": "producto3",
-		"description": "description3",
+		"title": "producto5",
+		"description": "description5",
 		"code": "75",
 		"thumbnail": "foto del producto",
 		"price": 155500,
@@ -52,8 +52,8 @@
 	{
 		"id": 6,
 		"timestamp": 1649368657968,
-		"title": "producto3",
-		"description": "description3",
+		"title": "producto6",
+		"description": "description6",
 		"code": "75",
 		"thumbnail": "foto del producto",
 		"price": 155500,
@@ -62,8 +62,8 @@
 	{
 		"id": 7,
 		"timestamp": 1649368785353,
-		"title": "producto3",
-		"description": "description3",
+		"title": "producto7",
+		"description": "description7",
 		"code": "75",
 		"thumbnail": "foto del producto",
 		"price": 155500,

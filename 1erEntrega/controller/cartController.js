@@ -6,7 +6,7 @@ let cart = new Cart(__dirname + '/Files/carrito.txt');
 let cartContent = [];
 
 const updateCart = () => {
-    console.log("hola")
+    // console.log("hola")
     cart.getCart().then(data => {
 
         if (data.length == 0) {
@@ -35,7 +35,7 @@ const createCart = (req, res) => {
         products: []
     });
     cart.saveCart(cartContent).then(() => {
-        
+
         res.status(200).send({
             message: 'Carrito creado',
             cart: id
@@ -77,7 +77,7 @@ const getCartId = (req, res) => {
 //(Funcion del DELETE)
 const deleteCartId = (req, res) => {
     let id = parseInt(req.params.cid);
-    
+
     let cartId = cartContent.find(cart => cart.id === id);
     if (id === undefined) {
         res.status(400).send({
@@ -112,7 +112,7 @@ const deleteCartId = (req, res) => {
 //(Funcion del POST/:id)
 const addProduct = (req, res) => {
     let id = parseInt(req.params.cid);
-    console.log(req.body)
+
     let product = req.body;
     let cartId = cartContent.find(cart => cart.id === id);
     if (id === undefined) {
@@ -172,18 +172,21 @@ const deleteProduct = (req, res) => {
             });
         } else {
             let cartProducts = cartId.products;
-            if (cartProducts.find(prod => prod.id === product)) {
-                if (cartProducts.quantity > 1) {
-                    cartContent[id - 1].products.quantity -= 1;
+            let productId = cartProducts.find(prod => parseInt(prod.id) === parseInt(product));
+            if (productId) {
+                
+                if (productId.quantity > 1) {
+                    productId.quantity -= 1;
                 } else {
                     cartContent[id - 1].products = cartProducts.filter(prod => prod.id !== product);
+                    productId.quantity = 0;
                 }
 
                 cart.saveCart(cartContent).then(() => {
                     res.status(200).send({
                         message: 'Producto eliminado',
                         cart: id,
-                        product: product
+                        product: productId
                     })
                 }).catch(err => {
                     res.status(500).send({

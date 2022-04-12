@@ -35,7 +35,6 @@ export default class Products {  // Clase Producto
         try {
             let products = JSON.parse(await this.getProducts());
             let product = products.find(product => product.id == id);
-            console.log(product)
             if (id === undefined) {
                 throw new Error('Faltan datos');
             } else {
