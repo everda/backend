@@ -169,18 +169,21 @@ const deleteProduct = (req, res) => {
             });
         } else {
             let cartProducts = cartId.products;
-            if (cartProducts.find(prod => prod.id === product)) {
-                if (cartProducts.quantity > 1) {
-                    cartContent[id - 1].products.quantity -= 1;
+            let productId = cartProducts.find(prod => parseInt(prod.id) === parseInt(product));
+            if (productId) {
+                
+                if (productId.quantity > 1) {
+                    productId.quantity -= 1;
                 } else {
                     cartContent[id - 1].products = cartProducts.filter(prod => prod.id !== product);
+                    productId.quantity = 0;
                 }
 
                 cart.saveCart(cartContent).then(() => {
                     res.status(200).send({
                         message: 'Producto eliminado',
                         cart: id,
-                        product: product
+                        product: productId
                     })
                 }).catch(err => {
                     res.status(500).send({
@@ -204,6 +207,7 @@ const deleteProduct = (req, res) => {
         }
     }
 }
+
 
 
 
