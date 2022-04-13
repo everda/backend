@@ -32,12 +32,9 @@ updateCart();
 //Crear un carro (Funcion del POST)
 const createCart = (req, res) => {
     id = id + 1;
-    console.log(cartContent)
-    console.log(id)
-    console.log(id)
     cartContent.push({
         id: id,
-        timestamp: new Date(),
+        timestamp: Date.now(),
         products: []
     });
     
