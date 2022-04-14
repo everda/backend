@@ -10,6 +10,7 @@ let id = 0
 
 
 const updateCart = () => {
+    // console.log("hola")
     cart.getCart().then(data => {
 
         if (data.length == 0) {
@@ -18,6 +19,7 @@ const updateCart = () => {
 
             cartContent = JSON.parse(data);
         }
+        return cartContent
 
     }).catch(err => {
         console.log(err);
@@ -117,6 +119,7 @@ const deleteCartId = (req, res) => {
 const addProduct = (req, res) => {
 
     let id = parseInt(req.params.cid);
+
     let product = req.body;
     let cartId = cartContent.find(cart => cart.id === id);
     if (id === undefined) {
@@ -179,7 +182,6 @@ const deleteProduct = (req, res) => {
             let cartProducts = cartId.products;
             let productId = cartProducts.find(prod => parseInt(prod.id) === parseInt(product));
             if (productId) {
-
                 if (productId.quantity > 1) {
                     productId.quantity -= 1;
                 } else {
@@ -230,5 +232,6 @@ export default {
     getCartId,
     deleteCartId,
     addProduct,
-    deleteProduct
+    deleteProduct,
+    updateCart
 };

@@ -1,0 +1,37 @@
+<div>
+    <h1>Usuarios</h1>
+    <div class="container">
+        <h4 class="card-title">Productos</h4>
+        <div class="row flex-d">
+            {{#each products}}
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <h2>{{title}}</h2>
+                            </div>
+                            <div class="col-md-9">
+                                <h4 class="card-title">{{title}}</h4>
+                                <p class="card-title">descripcion: {{description}}</p>
+                                <p class="card-text">precio:{{price}}</p>
+                                <p class="card-text">stock: {{stock}}</p>
+                                <button class="btn btn-primary" id="btn" key="{{id}}">Agregar al
+                                    carrito</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            {{/each}}
+        </div>
+
+
+
+
+    </div>
+
+</div>
+<script src="scripts/users.js"></script>
+

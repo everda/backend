@@ -25,7 +25,26 @@ export default class Cart {  // Clase Producto
         } catch (error) {
             console.log(error);
         }
-
     }
 
+    getCartPrdoducts = async (id) => {
+        try {
+            let cart = JSON.parse(await this.getCart());
+            let cartId = cart.find(cart => cart.id === id);
+            
+
+            if (id === undefined) {
+                throw new Error('Faltan datos');
+            } else {
+                if (!cartId) {
+                    throw new Error('Carro inexistente');
+                } else {
+                    return cartId.products;
+
+                }
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }

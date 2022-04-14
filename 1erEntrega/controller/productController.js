@@ -3,26 +3,31 @@ import Products from "../models/products.js"
 import __dirname from "../utils.js";
 
 let products = new Products(__dirname + '/Files/productos.txt');
+console.log((__dirname + '/Files/productos.txt'))
 
 //inicializo productos
+
 let productsContent = [];
-const updateProductsArray = () => {
-    products.getProducts().then(data => {
 
+const updateProductsArray = async () => {
+    productsContent = JSON.parse(await products.getProducts())
+    return productsContent
 
-        if (data.length == 0) {
-            productsContent = [];
-        } else {
-
-            productsContent = JSON.parse(data);
-        }
-
-    }).catch(err => {
-        console.log(err);
-    }
-    )
+    //     //console.log(JSON.parse(productsContent))
 }
-updateProductsArray();
+//  let prodsString = await products.getProducts()
+//  productsContent = JSON.parse(prodsString)
+
+//console.log(productsContent)
+
+
+updateProductsArray().then(() => {
+    //console.log(productsContent)
+})
+//console.log(productsContent)
+
+
+
 
 
 
@@ -31,13 +36,16 @@ updateProductsArray();
 //Get productos (Todos los productos)
 //Metodo GET
 const getProducts = (req, res) => {
+    console.log("entro a la funcion")
     if (productsContent.length === 0) {
         res.status(404).send({
             message: 'No hay productos',
             description: 'No hay productos'
         });
     } else {
+
         res.status(200).send({
+
             message: 'Productos',
             products: productsContent
         });
@@ -48,6 +56,8 @@ const getProducts = (req, res) => {
 //get producto por id (Funcion del GET)
 const getProductsByid = (req, res) => {
     let id = parseInt(req.params.pid);
+    console.log(productsContent.length)
+    console.log(typeof productsContent)
     let product = productsContent.find(product => product.id === id);
     if (id === undefined) {
         res.status(400).send({
@@ -201,5 +211,7 @@ export default {
     getProductsByid,
     createProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    productsContent,
+    updateProductsArray
 }
