@@ -1,0 +1,70 @@
+//Crear base de datos
+use ecommerce
+
+//creo las colecciones
+db.createCollection("mensajes")
+db.createCollection("productos")
+
+//agrego 10 productos
+db.productos.insertMany([
+{"id":1 ,"nombre": "Teclado" , "codigo": "T1", "precio": 1000},
+{"id":2 ,"nombre": "Monitor" , "codigo": "M1", "precio": 5000},
+{"id":3 ,"nombre": "Placa de video" , "codigo": "P1", "precio": 1800},
+{"id":4 ,"nombre": "CPU" , "codigo": "C1", "precio": 3500},
+{"id":5 ,"nombre": "Tower" , "codigo": "T1", "precio":2000},
+{"id":6 ,"nombre": "Mouse" , "codigo": "M2", "precio": 500},
+{"id":7 ,"nombre": "Notebook" , "codigo": "N1", "precio": 2500},
+{"id":8 ,"nombre": "Headset" , "codigo": "H1", "precio": 13000},
+{"id":9 ,"nombre": "Motherboard" , "codigo": "M3", "precio": 2000},
+{"id":10 ,"nombre": "osito de peluche" , "codigo": "O1", "precio": 100}
+])
+
+//agrego 10 mensajes
+db.mensajes.insertMany([
+{"email":"mail1@mail.com" ,"timestamp": Date.now() , "mensaje": "Hola"},
+{"email":"mail2@mail.com" ,"timestamp": Date.now() , "mensaje": "Hola1"},
+{"email":"mail1@mail.com" ,"timestamp": Date.now() , "mensaje": "Hola2"},
+{"email":"mail2@mail.com" ,"timestamp": Date.now() , "mensaje": "Hola3"},
+{"email":"mail1@mail.com" ,"timestamp": Date.now() , "mensaje": "Hola4"},
+{"email":"mail2@mail.com" ,"timestamp": Date.now() , "mensaje": "Hola5"},
+{"email":"mail1@mail.com" ,"timestamp": Date.now() , "mensaje": "Hola6"},
+{"email":"mail2@mail.com" ,"timestamp": Date.now() , "mensaje": "Hola7"},
+{"email":"mail1@mail.com" ,"timestamp": Date.now() , "mensaje": "Hola8"},
+{"email":"mail2@mail.com" ,"timestamp": Date.now() , "mensaje": "Hola9"}
+])
+
+//listar productos
+db.productos.find()
+db.mensajes.find()
+
+//Mostrar la cantidad en cada 1
+db.productos.EstimatedDocumentCount()
+db.mensajes.EstimatedDocumentCount()
+
+
+//Agregar un producto mas
+db.productos.insert({"id":11 ,"nombre": "otroItem" , "codigo": "O2", "precio": 3000, "stock": 100})
+
+//Realizar busquedas
+
+db.productos.find({"nombre":"Teclado"})
+db.productos.find({"precio": {$lt:1000}})
+db.productos.find({$and:[{"precio": {$gte:1000}}, {"precio": {$lte:3000}}]})
+db.productos.find({"precio": {$gt:3000}})
+db.productos.find({}, {"nombre":1}).skip(2).limit(1).sort({"precio":1})
+
+//agregar campo stock
+db.productos.updateMany({}, {$set:{"stock":100}})
+db.productos.updateMany({"precio":{$gt:4000}}, {$set:{"stock":0}})
+db.productos.deleteMany({"precio":{$lt:1000}})
+
+
+
+
+//db.createUser{
+	user: "pepe",
+	pwd: "asd456",
+	roles: [
+	{role: "read", db:"ecommerce"}
+	]
+}

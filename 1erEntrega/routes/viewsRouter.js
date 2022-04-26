@@ -3,7 +3,7 @@ import viewsController from "../controller/viewsController.js";
 import productController from "../controller/productController.js";
 import cartController from "../controller/cartController.js";
 import cartModel from "../models/cartModel.js";
-import __dirname from "../utils.js";
+import { __dirname } from "../utils.js";
 
 
 let cart = new cartModel(__dirname + '/Files/carrito.txt');

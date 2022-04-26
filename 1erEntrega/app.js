@@ -1,9 +1,13 @@
 import express from "express";
-import __dirname from "./utils.js";
+import {__dirname} from "./utils.js";
 import cartRoute from "./Routes/Carrito.js";
 import productRoute from "./routes/productos.js";
 import viewsRouter from "./routes/viewsRouter.js";
 import handlebars from "express-handlebars";
+import productController from "./controller/productController.js";
+import cartController from "./controller/cartController.js";
+
+
 
 
 const app = express();
@@ -12,6 +16,12 @@ const server = app.listen(port, () => {
     console.log(`Listening service on port ${port}`);
 
 });
+
+
+
+cartController.updateCart()
+productController.updateProductsArray()
+
 
 
 

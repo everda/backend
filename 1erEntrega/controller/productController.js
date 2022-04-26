@@ -1,16 +1,24 @@
 
 import Products from "../models/products.js"
 import __dirname from "../utils.js";
+import IdGenerator from "../utils.js";
 
 let products = new Products(__dirname + '/Files/productos.txt');
-console.log((__dirname + '/Files/productos.txt'))
+//console.log((__dirname + '/Files/productos.txt'))
 
 //inicializo productos
 
 let productsContent = [];
 
+
 const updateProductsArray = async () => {
-    productsContent = JSON.parse(await products.getProducts())
+    const response = await products.getProducts()
+    if (response.length > 0) {
+        productsContent = JSON.parse(response);
+    } else {
+        productsContent = [];
+    }
+
     return productsContent
 
     //     //console.log(JSON.parse(productsContent))
@@ -92,7 +100,7 @@ const createProduct = (req, res) => {
             description: 'Faltan datos'
         })
     } else {
-        let id = productsContent.length + 1;
+        let id = IdGenerator().next().value;
         product.id = id;
         let newProduct = {
             id: id,

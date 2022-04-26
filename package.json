@@ -2,11 +2,11 @@
   "name": "curso-backend",
   "version": "1.0.0",
   "description": "",
-  "main": "./1erEntrega/app.js",
+  "main": "./src/Websockets2/app.js",
   "type": "module",
   "scripts": {
     "build": "babel ./src -d ./dist",
-    "start": "nodemon ./1erEntrega/app.js",
+    "start": "nodemon ./src/Websockets2/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
