@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/head.ejs') %>
+        <title>Agregar Productos</title>
+</head>
+
+<body>
+
+    <div class="container">
+        <a href="/">AgregarProducto</a>
+        <h1>lista productos</h1>
+        <div class="container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">nombre</th>
+                        <th scope="col">precio</th>
+                        <th scope="col">foto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (products.length> 0) { %>
+                        <% console.log(products) %>
+                            <% products.forEach(product=> { %>
+                                <tr>
+                                    <td>
+                                        <%= product.name %>
+                                    </td>
+                                    <td>
+                                        <%= product.price %>
+                                    </td>
+                                    <td>
+                                        <img src=<%= product.thumbnail %> alt="">
+                                    </td>
+                                </tr>
+                                <% }) %>
+                                    <% } else { %>
+                                        <tr>
+                                            <td colspan="3">No hay productos</td>
+                                        </tr>
+                                        <% } %>
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
