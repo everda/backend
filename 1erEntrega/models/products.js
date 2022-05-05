@@ -8,8 +8,6 @@ export default class Products {  // Clase Producto
 
     getProducts = async () => {
         try {
-
-
             if (fs.existsSync(this.nombreArchivo)) {
                 let content = fs.readFileSync(this.nombreArchivo, 'utf-8');
                 return content;

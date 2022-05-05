@@ -1,8 +1,8 @@
 import Cart from '../models/cartModel.js';
-import __dirname from '../utils.js';
+import util from '../utils.js';
 
 // //Inicializo el carro
-let cart = new Cart(__dirname + '/Files/carrito.txt');
+let cart = new Cart(util.__dirname + '/Files/carrito.txt');
 let cartContent = [];
 let id = 0
 

@@ -4,25 +4,64 @@
         <h4 class="card-title">Productos</h4>
         <div class="row flex-d">
             {{#each products}}
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <h2>{{title}}</h2>
-                            </div>
-                            <div class="col-md-9">
-                                <h4 class="card-title">{{title}}</h4>
-                                <p class="card-title">descripcion: {{description}}</p>
-                                <p class="card-text">precio:{{price}}</p>
-                                <p class="card-text">stock: {{stock}}</p>
-                                <button class="btn btn-primary" id="btn" key="{{id}}">Editar Producto</button>
-                            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">{{title}}</h4>
+                        <div class="d-flex flex-column">
+
+                            <form class="form" key={{id}}>
+
+                            <label>Title</label>
+                            <input type="text" id="title" name="title" value="{{title}}" >
+                            <label>Descripcion</label>
+                            <input type="text" id="description" name="description" value="{{description}}">
+                            <label>Code</label>
+                            <input type="text" id="code" name="code" value="{{code}}">
+                            <label>url foto</label>
+                            <input type="text" id="thumbnail" name="thumbnail" value="{{thumbnail}}">
+                            <label>Precio</label>
+                            <input type="text" id="price" name="price" value="{{price}}">
+                            <label>Stock</label>
+                            <input type="text" id="stock" name="stock" value="{{stock}}">
+
+
+                            <button  class ="btn btn-primary btnEdit" key="{{id}}">Editar Producto</button>
+                            <button  class="btn btn-primary btnDelete" key="{{id}}">borrar Producto</button>
+
+                            </form>
+
                         </div>
                     </div>
+
                 </div>
+
             </div>
+
+
+            {{else}}
+            <p>No hay productos definidos</p>
+            <h2>Agregar Productos</h2>
+            <form id="addProduct">
+                <div class="form-group">
+                    <label for="title">Titulo</label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder="Titulo">
+                    <label for="description">description</label>
+                    <input type="text" class="form-control" id="description" name="description"
+                        placeholder="description">
+                    <label for="code">codigo</label>
+                    <input type="number" class="form-control" id="code" name="code" placeholder="code">
+                    <label for="price">price</label>
+                    <input type="number" class="form-control" id="price" name="price" placeholder="price">
+                    <label for="image">image</label>
+                    <input type="text" class="form-control" id="image" name="image" placeholder="image">
+                    <label for="stock">stock</label>
+                    <input type="number" class="form-control" id="stock" name="stock" placeholder="stock">
+                    <button class="btn btn-primary" id="btnAdd">Agregar Producto</button>
+                </div>
+            </form>
             {{/each}}
+            <a href="/admin/addProduct">AgregarProducto</a>
         </div>
     </div>
 </div>

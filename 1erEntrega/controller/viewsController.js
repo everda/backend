@@ -1,10 +1,9 @@
-import { async } from "rxjs";
 import Cart from "../models/cartModel.js";
 import Products from "../models/products.js";
-import __dirname from "../utils.js";
+import utils from "../utils.js";
 
-let cart = new Cart(__dirname + '/Files/carrito.txt');
-let products = new Products(__dirname + '/Files/productos.txt');
+let cart = new Cart(utils.__dirname + '/Files/carrito.txt');
+let products = new Products(utils.__dirname + '/Files/productos.txt');
 
 const showProductsInfo = async (productsObject) => {
     console.log("aca")
@@ -18,6 +17,7 @@ const showProductsInfo = async (productsObject) => {
 }
 
 const showCart = (req, res) => {
+    console.log("entro")
     let id = parseInt(req.params.id);
     cart.getCartPrdoducts(id).then(data => {
         let cart = data;
@@ -37,8 +37,13 @@ const showCart = (req, res) => {
 
 const showUsers = (req, res) => {
     products.getProducts().then(data => {
-        let products = JSON.parse(data);
-        res.render('users.handlebars', { products: products });
+        if (data.length > 0) {
+            let products = JSON.parse(data);
+
+            res.render('users.handlebars', { products: products });
+        } else {
+            res.render('users.handlebars', { products: [] });
+        }
     }
     ).catch(err => {
         console.log(err);
@@ -48,12 +53,20 @@ const showUsers = (req, res) => {
 
 const showAdminview = (req, res) => {
     products.getProducts().then(data => {
-        let products = JSON.parse(data);
-        res.render('admin.handlebars', { products });
+        if (data.length > 0) {
+            let products = JSON.parse(data);
+            res.render('admin.handlebars', { products });
+        } else {
+            res.render('admin.handlebars', { products: [] });
+        }
     }).catch(err => {
         console.log(err);
     }
     )
+}
+
+const showAdminAddproduct = (req, res) => {
+    res.render('addProduct.handlebars');
 }
 
 const showEditItemview = (req, res) => {
@@ -70,4 +83,4 @@ const showEditItemview = (req, res) => {
 
 
 
-export default { showCart, showUsers, showAdminview, showEditItemview };
+export default { showCart, showUsers, showAdminview, showEditItemview, showAdminAddproduct };

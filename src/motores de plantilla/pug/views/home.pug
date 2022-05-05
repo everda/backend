@@ -1,0 +1,18 @@
+extends layout.pug
+block content
+    .container.bg
+        a(href="/products") Ver productos 
+        h1 Hola
+        .container
+        form(action="/" method="post") 
+            .form-group
+                label(for="name") Nombre
+                input.form-control(type="text" name="name" required)
+                label(for="price") Precio
+                input.form-control(type="text" name="price" required)
+                label(for = "thumbnail" ) URL de Foto ("https://picsum.photos/200")
+                input.form-control(type="text" name="thumbnail" pattern="https://.*" size="30" required value = "https://picsum.photos/200")
+                button.btn.btn-primary(type="submit" value="Enviar" required) Agregar Producto
+
+
+

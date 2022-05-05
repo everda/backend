@@ -1,9 +1,10 @@
 
 import Products from "../models/products.js"
-import __dirname from "../utils.js";
+import util from "../utils.js";
 import IdGenerator from "../utils.js";
 
-let products = new Products(__dirname + '/Files/productos.txt');
+let products = new Products(util.__dirname + '/Files/productos.txt');
+
 //console.log((__dirname + '/Files/productos.txt'))
 
 //inicializo productos
@@ -91,7 +92,8 @@ const getProductsByid = (req, res) => {
 
 
 //Crear un producto (Funcion del POST)
-const createProduct = (req, res) => {
+const createProduct = async (req, res) => {
+
     let product = req.body;
     let { title, description, code, thumbnail, price, stock } = product;
     if (title === undefined || description === undefined || code === undefined || thumbnail === undefined || price === undefined || stock === undefined) {
@@ -100,8 +102,20 @@ const createProduct = (req, res) => {
             description: 'Faltan datos'
         })
     } else {
-        let id = IdGenerator().next().value;
-        product.id = id;
+        console.log("entro aca")
+        //let id = IdGenerator().next().value;
+        const response = await products.getProducts()
+        if (response.length > 0) {
+            const productsContent = JSON.parse(response);
+        } else {
+            const productsContent = [];
+        }
+        console.log(productsContent)
+
+
+        let id = productsContent.length > 0 ? productsContent[productsContent.length - 1].id + 1 : 1;
+
+        console.log(id)
         let newProduct = {
             id: id,
             timestamp: Date.now(),
@@ -112,7 +126,9 @@ const createProduct = (req, res) => {
             price: price,
             stock: stock
         };
+        console.log(newProduct)
         productsContent.push(newProduct);
+        console.log(productsContent)
         products.saveProducts(productsContent).then(() => {
             res.status(200).send({
                 message: 'Producto creado',
