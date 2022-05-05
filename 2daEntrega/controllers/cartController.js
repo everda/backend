@@ -1,6 +1,6 @@
 const CarritoDaoArchivo = require('../src/DAOS/carrito/CarritoDaoArchivo')
 
-const cartModel = new CarritoDaoArchivo('./files/carrito.json');
+const cartModel = new CarritoDaoArchivo('./files/carrito.txt');
 
 
 //Crear un carro (Funcion del POST)
@@ -115,7 +115,7 @@ const removeProduct = async (req, res) => {
             });
         }
         else {
-            let cart = await cart.removeProduct(id, product);
+            let cart = await cartModel.removeProduct(id, product);
             res.status(200).send({
                 message: 'Producto borrado'
             }

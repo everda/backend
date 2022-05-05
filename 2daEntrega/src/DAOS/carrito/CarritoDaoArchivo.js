@@ -77,18 +77,18 @@ class CarritoDaoArchivo extends ContenedorArchivo {
 
     async removeProduct(id, product) {
         try {
-            let cart = await this.getData();
+            let cart = JSON.parse(await this.getData());
             let cartId = cart.find(cart => cart.id === id);
             if (!cartId) {
-                throw new Error('Carro inexistente');
+                return ('Carro inexistente');
             } else {
                 let cartProducts = cartId.products;
-                let productId = cartProducts.find(prod => prod.id === product.id);
+                let productId = cartProducts.find(prod => prod.id === product);
                 if (productId) {
                     if (productId.quantity > 1) {
                         productId.quantity -= 1;
                     } else {
-                        cartProducts = cartProducts.filter(prod => prod.id !== product.id);
+                        cartProducts = cartProducts.filter(prod => prod.id !== product);
                         productId.quantity = 0;
                     }
                 }
