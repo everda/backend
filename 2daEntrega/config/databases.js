@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const firebase = require('firebase');
 const database = require('./');
 
 let mongoConnect = (async () => {
@@ -12,4 +13,19 @@ let mongoConnect = (async () => {
     }
 })();
 
+let firebaseConnect = (async () => {
+
+    try {
+
+
+
 module.exports = { mongoConnect };
+
+
+var admin = require("firebase-admin");
+
+var serviceAccount = require("path/to/serviceAccountKey.json");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
