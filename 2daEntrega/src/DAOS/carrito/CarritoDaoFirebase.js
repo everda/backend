@@ -1,97 +1,81 @@
 const ContenedorFirebase = require('../../contenedores/ContenedorFirebase');
 
-const { cartSchema } = require('../../schemas/cartSchema');
 
 class CarritoDaoFirebase extends ContenedorFirebase {
     constructor() {
-        super(cartSchema, 'cartCollection');
+        super('cartCollection');
     }
 
     async getCart(cid) {
-        try {
-            let response = await this.model.findOne({ id: cid });
-            return response;
+        let response = await this.query.where('id', '==', cid).get();
+        if (response.empty) {
+            return null;
         }
-        catch (error) {
-            console.log(error)
-        }
+        return response.docs[0].data();
     }
 
     async createCart() {
-        try {
-            let lastRecord = await this.model.findOne({}, {}, { sort: { 'id': -1 } });
-            let id = lastRecord ? parseInt(lastRecord.id) + 1 : 1;
-            let response = await this.model.create({ id: id, timestamp: Date.now(), products: [] });
-            return response;
+        let lastRecord = await this.query.orderBy('id', 'desc').limit(1).get();
+        if (lastRecord.empty) {
+            return await this.query.add({ id: 1, timestamp: Date.now(), products: [] });
+        } else {
+
+            let id = lastRecord.docs[0].data().id ? lastRecord.docs[0].data().id + 1 : 1;
+            return await this.query.add({ id: id, timestamp: Date.now(), products: [] });
         }
-        catch (error) {
-            console.log(error)
-        }
+
     }
 
     async deleteCart(id) {
-        try {
-            let response = await this.model.findOneAndDelete({ id });
-            return response;
-
-        }
-        catch (error) {
-            console.log(error)
-        }
+        let doc = await this.query.where('id', '==', id).get();
+        let response = await this.query.doc(doc.docs[0].id).delete();
+        return response;
     }
 
     async addProduct(id, product) {
-        try {
-            let cart = await this.getCart(id);
-            if (!cart) {
-                return 'Carro inexistente';
+        let doc = await this.query.where('id', '==', id).get();
+        if (!doc) {
+            return 'Carro inexistente';
+        } else {
+            let products = doc.docs[0].data().products;
+            let productId = products.find(prod => prod.id === product.id);
+            if (productId) {
+                productId.quantity += 1;
             } else {
-                let products = cart.products;
-                console.log("1")
-                console.log(cart)
-                let productId = products.find(prod => prod.id === product.id);
-                if (productId) {
-                    productId.quantity += 1;
-                } else {
-                    products.push({ id: product.id, timestamp: Date.now(), quantity: 1 });
-                }
-                let response = await this.model.findOneAndUpdate({ id: id }, { products: products });
-                return cart;
+                products.push({ id: product.id, timestamp: Date.now(), quantity: 1 });
             }
+            let response = await this.query.doc(doc.docs[0].id).update({ products: products });
+            return doc.docs[0].data();
         }
-        catch (error) {
-            console.log(error)
-        }
-
-
-
     }
 
     async removeProduct(id, product) {
-        try {
-            let cart = await this.getCart(id);
-            if (!cart) {
-                return 'Carro inexistente';
-            } else {
-                let products = cart.products;
-                let productId = products.find(prod => prod.id === product);
-                if (productId) {
-                    if (productId.quantity > 1) {
-                        productId.quantity -= 1;
-                    } else {
-                        products = products.filter(prod => prod.id !== product);
-                    }
+        let doc = await this.query.where('id', '==', id).get();
+
+        if (doc.empty) {
+            return 'Carro inexistente';
+        } else {
+            let products = doc.docs[0].data().products;
+            let productId = products.find(prod => prod.id === product);
+            if (productId) {
+                if (productId.quantity > 1) {
+
+                    productId.quantity -= 1;
+                } else {
+                    products = products.filter(prod => prod.id !== product);
                 }
-                let response = await this.model.findOneAndUpdate({ id: id }, { products: products });
-                return cart;
+                let response = await this.query.doc(doc.docs[0].id).update({ products: products });
+                return doc.docs[0].data();
+
+            } else {
+                return 'Producto inexistente';
             }
+
+
         }
-        catch (error) {
-            console.log(error)
-        }
+
+
     }
-
-
 }
 
 

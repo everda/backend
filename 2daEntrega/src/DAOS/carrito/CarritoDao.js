@@ -1,23 +1,27 @@
 const CarritoDaoArchivo = require('./CarritoDaoArchivo')
 const CarritoDaoMongo = require('./CarritoDaoMongo')
 const CarritoDaoMemoria = require('./CarritoDaoMemoria')
+const CarritoDaoFirebase = require('./CarritoDaoFirebase')
+const config = require('./../../../config')
 
 
-if (process.env.DB === 'Mongo') {
+
+if (config.database.DB === 'Mongo') {
     console.log("loaded Mongo Cart")
+
     module.exports = CarritoDaoMongo
 }
-if (process.env.DB === 'Archivo') {
+if (config.database.DB === 'Archivo') {
     console.log("loaded Archivo Cart")
     module.exports = CarritoDaoArchivo
 }
 
-if (process.env.DB === 'Memoria') {
+if (config.database.DB === 'Memoria') {
     console.log("loaded Memoria Cart")
     module.exports = CarritoDaoMemoria
 }
 
-if (process.env.DB === 'Firebase') {
+if (config.database.DB === 'Firebase') {
     console.log("loaded Firebase Cart")
     module.exports = CarritoDaoFirebase
 }

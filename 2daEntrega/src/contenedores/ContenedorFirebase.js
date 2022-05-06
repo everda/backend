@@ -1,12 +1,11 @@
-const admin = require('firebase-admin');
-let serviceAccount = require("../../config/curso-backend-a6efd-firebase-adminsdk-8pu1r-2b4047943f.json");
+
+const {  admin } = require('./../../config/databases.js');
 
 class ContenedorFirebase {
     constructor(collection) {
+        this.db = admin.firestore();
+        this.query = this.db.collection(collection)
 
-
-        this.collection = collection;
-        this.model = this.admin.database().ref(this.collection);
     }
 
     async connect() {

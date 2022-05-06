@@ -9,9 +9,7 @@ class ProductoDaoMongo extends ContenedorMongo {
 
     async getProducts() {
         try {
-            await  this.connect();
             let response = await this.model.find({});
-            await  this.disconnect();
             return response;
 
         }
@@ -24,9 +22,8 @@ class ProductoDaoMongo extends ContenedorMongo {
 
     async getProduct(id) {
         try {
-            await    this.connect();
+            
             let response = await this.model.findOne({ id: id });
-            await   this.disconnect();
             return response;
 
         }
@@ -37,12 +34,10 @@ class ProductoDaoMongo extends ContenedorMongo {
 
     async createProduct(product) {
         try {
-            await    this.connect();
             let lastRecord = await this.model.findOne({}, {}, { sort: { 'id': -1 } });
             let id = lastRecord ? parseInt(lastRecord.id) + 1 : 1;
-            //console.log(product)
             let response = await this.model.create({ id: id,  ...product });
-            await   this.disconnect();
+            
             return response;
         }
         catch (error) {
@@ -53,9 +48,7 @@ class ProductoDaoMongo extends ContenedorMongo {
 
     async updateProduct(id, product) {
         try {
-            await   this.connect();
             let response = await this.model.findOneAndUpdate({ id: id }, product);
-            await  this.disconnect();
             return response;
         }
         catch (error) {
@@ -66,9 +59,7 @@ class ProductoDaoMongo extends ContenedorMongo {
 
     async deleteProduct(id) {
         try {
-            await this.connect();
             let response = await this.model.findOneAndDelete({ id });
-            await this.disconnect();
             return response;
         }
         catch (error) {

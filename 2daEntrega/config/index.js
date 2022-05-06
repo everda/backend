@@ -17,7 +17,8 @@ let config = {
 }
 
 let database = {
-    mongo_atlas_uri: process.env.MONGO_ATLAS_URI
+    mongo_atlas_uri: process.env.MONGO_ATLAS_URI,
+    DB: process.env.DB
 }
 
 

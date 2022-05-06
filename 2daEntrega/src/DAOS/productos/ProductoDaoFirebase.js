@@ -1,19 +1,16 @@
 const ContenedorFirebase = require('../../contenedores/ContenedorFirebase')
 
-const { productSchema } = require('../../schemas/productSchema');
 
 class ProductoDaoFirebase extends ContenedorFirebase {
     constructor() {
-        super(productSchema, 'productsCollection');
+        super('productsCollection');
     }
 
     async getProducts() {
         try {
-            let response = await this.model.find({});
-            return response;
-
+            let response = await this.query.get();
+            return response.docs.map(doc => doc.data());
         }
-
         catch (error) {
             console.log(error)
         }
@@ -22,10 +19,8 @@ class ProductoDaoFirebase extends ContenedorFirebase {
 
     async getProduct(id) {
         try {
-            
-            let response = await this.model.findOne({ id: id });
-            return response;
-
+            let response = await this.query.where('id', '==', id).get();
+            return response.docs[0].data();
         }
         catch (error) {
             console.log(error)
@@ -34,12 +29,14 @@ class ProductoDaoFirebase extends ContenedorFirebase {
 
     async createProduct(product) {
         try {
-            let lastRecord = await this.model.findOne({}, {}, { sort: { 'id': -1 } });
-            let id = lastRecord ? parseInt(lastRecord.id) + 1 : 1;
-            console.log(product)
-            let response = await this.model.create({ id: id,  ...product });
-            
-            return response;
+            let lastRecord = await this.query.orderBy('id', 'desc').limit(1).get();
+            if (lastRecord.empty) {
+                return await this.query.add({ id: 1, ...product });
+            } else {
+                let id = lastRecord.docs[0].data().id ? lastRecord.docs[0].data().id + 1 : 1;
+                let response = await this.query.add({ id: id, ...product });
+                return response;
+            }
         }
         catch (error) {
             console.log(error)
@@ -49,8 +46,13 @@ class ProductoDaoFirebase extends ContenedorFirebase {
 
     async updateProduct(id, product) {
         try {
-            let response = await this.model.findOneAndUpdate({ id: id }, product);
-            return response;
+            let doc = await this.query.where('id', '==', id).get();
+            if (!doc) {
+                return 'Producto inexistente';
+            } else {
+                let response = await this.query.doc(doc.docs[0].id).update({ ...product });
+                return response
+            }
         }
         catch (error) {
             console.log(error)
@@ -60,8 +62,13 @@ class ProductoDaoFirebase extends ContenedorFirebase {
 
     async deleteProduct(id) {
         try {
-            let response = await this.model.findOneAndDelete({ id });
-            return response;
+            let doc = await this.query.where('id', '==', id).get();
+            if (!doc) {
+                return 'Producto inexistente';
+            } else {
+                let response = await this.query.doc(doc.docs[0].id).delete();
+                return response;
+            }
         }
         catch (error) {
             console.log(error)
