@@ -3,6 +3,7 @@ const fs = require('fs');
  class ContenedorArchivo {
     constructor(nombreArchivo) {
         this.nombreArchivo = nombreArchivo;
+        console.log("entro")
     }
 
     async getData() {

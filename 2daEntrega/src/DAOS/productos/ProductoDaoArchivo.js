@@ -1,8 +1,10 @@
 const ContenedorArchivo = require('../../contenedores/ContenedorArchivo')
+const { config } = require('../../../config')
 
 class ProductoDaoArchivo extends ContenedorArchivo {
-    constructor(nombreArchivo) {
-        super(nombreArchivo)
+    constructor() {
+        //console.log(config.productFile)
+        super(config.paths.productFile)
     }
 
     async getProducts() {

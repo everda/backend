@@ -10,14 +10,12 @@ const ContenedorMongo = require('./src/contenedores/ContenedorMongo')
 
 const mongoCon = new ContenedorMongo({}, 'users');
 
-console.log(mongoCon.getData())
+
 
 
 
 //let port = process.env.PORT || 3000
 
-console.log(port)
-console.log(config.path)
 
 
 

@@ -8,13 +8,16 @@ require('dotenv').config(
 
 
 let config = {
-    port: process.env.PORT ,
+    port: process.env.PORT,
     dev: process.env.NODE_ENV !== 'production',
-    path: path.resolve(__dirname, '../.env')
+    paths: {
+        productFile: path.resolve(__dirname, '../files/productos.txt'),
+        cartFile: path.resolve(__dirname, '../files/carrito.txt')
+    }
 }
 
 let database = {
-    mongo_atlas_uri: process.env.MONGO_ATLAS_URI,
+    mongo_atlas_uri: process.env.MONGO_ATLAS_URI
 }
 
 

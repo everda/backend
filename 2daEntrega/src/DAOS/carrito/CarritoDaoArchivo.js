@@ -1,9 +1,32 @@
 const ContenedorArchivo = require('../../contenedores/ContenedorArchivo')
+const { config } = require('../../../config')
 
 class CarritoDaoArchivo extends ContenedorArchivo {
     constructor() {
-        super('./files/carrito.txt')
+        
+        super(config.paths.cartFile);
     }
+
+
+
+    async getCart(id) {
+        try {
+            let cart = JSON.parse(await this.getData());
+            let cartId = cart.find(cart => cart.id === id);
+            if (id === undefined) {
+                return ('Faltan datos');
+            } else {
+                if (!cartId) {
+                    return ('Carro inexistente');
+                } else {
+                    return cartId;
+                }
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     async createCart() {
         try {
             let cart = [];
@@ -54,7 +77,7 @@ class CarritoDaoArchivo extends ContenedorArchivo {
                 throw new Error('Carro inexistente');
             } else {
                 let cartProducts = cartId.products;
-                console.log(cartId)
+                
                 let productId = cartProducts.find(prod => prod.id === product.id);
                 if (productId) {
                     productId.quantity += 1;
@@ -101,32 +124,7 @@ class CarritoDaoArchivo extends ContenedorArchivo {
         }
     }
 
-    async getCart(id) {
-        try {
-            let cart = JSON.parse(await this.getData());
-            let cartId = cart.find(cart => cart.id === id);
-            if (id === undefined) {
-                return ('Faltan datos');
-            } else {
-                if (!cartId) {
-                    return ('Carro inexistente');
-                } else {
-                    return cartId;
-                }
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    }
 
-    async saveCart(cart) {
-        try {
-            let result = await this.saveData(cart);
-            return result;
-        } catch (error) {
-            console.log(error);
-        }
-    }
 
 }
 

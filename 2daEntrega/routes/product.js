@@ -17,6 +17,7 @@ const adminCheck = (req, res, next) => {
 };
 
 productRouter.get('/', productController.getProducts);
+productRouter.get('/:pid', productController.getProductId);
 productRouter.post('/', adminCheck, productController.createProduct);
 productRouter.put('/:pid', adminCheck, productController.updateProduct);
 productRouter.delete('/:pid', adminCheck, productController.deleteProduct);

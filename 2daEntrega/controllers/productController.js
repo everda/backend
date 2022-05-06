@@ -1,6 +1,6 @@
-const ProductoDaoArchivo = require('../src/DAOS/productos/ProductoDaoArchivo')
+const ProductoDao = require('../src/DAOS/productos/ProductoDao')
 
-const productModel = new ProductoDaoArchivo('./files/productos.txt');
+const productModel = new ProductoDao();
 
 
 const getProducts = async (req, res) => {

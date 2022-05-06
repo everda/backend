@@ -53,7 +53,6 @@ const deleteCartId = async (req, res) => {
             });
         } else {
             let response = await cartModel.deleteCart(id);
-            console.log(response)
             res.status(200).send({
                 message: 'Carro borrado',
                 cart: id,
@@ -83,7 +82,7 @@ const addProduct = async (req, res) => {
         });
     }
     else {
-        let cart = JSON.parse(await cartModel.addProduct(id, product));
+        let cart = await cartModel.addProduct(id, product);
         res.status(200).send({
             message: 'Producto añadido',
             cart: cart

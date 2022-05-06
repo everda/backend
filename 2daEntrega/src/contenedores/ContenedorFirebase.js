@@ -1,32 +1,29 @@
-const firebase = require('firebase');
 const admin = require('firebase-admin');
-const serviceAccount = require('../../config/serviceAccountKey.json');
+let serviceAccount = require("../../config/curso-backend-a6efd-firebase-adminsdk-8pu1r-2b4047943f.json");
 
-export class ContenedorFirebase {
-    constructor() {
-        this.firebase = firebase;
-        this.admin = admin;
-        this.serviceAccount = serviceAccount;
+class ContenedorFirebase {
+    constructor(collection) {
+
+
+        this.collection = collection;
+        this.model = this.admin.database().ref(this.collection);
     }
 
-    async getData() {
+    async connect() {
         try {
-            let data = await this.admin.database().ref('/').once('value');
-            return data.val();
-        } catch (error) {
-            console.log(error);
+            admin.initializeApp({
+                credential: admin.credential.cert(serviceAccount)
+            }
+            );
+        } catch (err) {
+            console.log(err.message);
+
+
+
+
+
+
         }
     }
-
-    async saveData(data) {
-        try {
-            let result = await this.admin.database().ref('/').set(data);
-            return result;
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    async getDataProduct(id) {
-        
 }
+module.exports = ContenedorFirebase;
