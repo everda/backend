@@ -4,7 +4,13 @@ const { config } = require('./config/')
 const port = config.port
 const { productRouter } = require('./routes/product')
 const { cartRouter } = require('./routes/cart')
+const ContenedorMongo = require('./src/contenedores/ContenedorMongo')
 
+
+
+const mongoCon = new ContenedorMongo({}, 'users');
+
+console.log(mongoCon.getData())
 
 
 

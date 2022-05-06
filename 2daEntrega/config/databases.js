@@ -1,10 +1,18 @@
 const mongoose = require('mongoose');
-const firebase = require('firebase');
+var admin = require("firebase-admin");
 const database = require('./');
+var serviceAccount = require("./curso-backend-a6efd-firebase-adminsdk-8pu1r-2b4047943f.json");
 
-let mongoConnect = (async () => {
+ admin.initializeApp({
+     credential: admin.credential.cert(serviceAccount)
+ });
+
+console.log('base firabase conectada')
+
+let mongoConnect;
+(async () => {
     try {
-        await mongoose.connect(database.mongo_atlas_uri, {
+        await mongoose.connect(database.database.mongo_atlas_uri, {
             useNewUrlParser: true
         });
         console.log('MongoDB connected');
@@ -13,19 +21,13 @@ let mongoConnect = (async () => {
     }
 })();
 
-let firebaseConnect = (async () => {
-
-    try {
 
 
 
-module.exports = { mongoConnect };
+
+module.exports = { mongoConnect, mongoose };
 
 
-var admin = require("firebase-admin");
 
-var serviceAccount = require("path/to/serviceAccountKey.json");
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
-});
+
