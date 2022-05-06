@@ -1,8 +1,9 @@
 const ContenedorMongo = require('./../../contenedores/ContenedorMongo');
-const { mongoConnect, mongoose } = require('./../../config/databases.js');
-const { cartSchema } = require('./../../schemas/carritoSchema.js');
+const { mongoConnect, mongoose } = require('../../../config/databases');
+const { cartSchema } = require('../../schemas/cartSchema');
 
-class CarritoDaoMongo {
+class CarritoDaoMongo extends ContenedorMongo {
+
     constructor() {
         super(cartSchema, 'cartCollection');
     }
@@ -38,3 +39,5 @@ class CarritoDaoMongo {
         }
     }
 }
+
+module.exports = CarritoDaoMongo;

@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 var admin = require("firebase-admin");
 const database = require('./');
-var serviceAccount = require("./curso-backend-a6efd-firebase-adminsdk-8pu1r-2b4047943f.json");
+// var serviceAccount = require("./curso-backend-a6efd-firebase-adminsdk-8pu1r-2b4047943f.json");
 
- admin.initializeApp({
-     credential: admin.credential.cert(serviceAccount)
- });
+//  admin.initializeApp({
+//      credential: admin.credential.cert(serviceAccount)
+//  });
 
 console.log('base firabase conectada')
 

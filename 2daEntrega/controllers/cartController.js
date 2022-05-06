@@ -1,6 +1,5 @@
-const CarritoDaoArchivo = require('../src/DAOS/carrito/CarritoDaoArchivo')
-
-const cartModel = new CarritoDaoArchivo('./files/carrito.txt');
+const CarritoDao = require('../src/DAOS/carrito/CarritoDao')
+const cartModel = new CarritoDao();
 
 
 //Crear un carro (Funcion del POST)

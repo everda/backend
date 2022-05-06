@@ -1,8 +1,8 @@
 const ContenedorArchivo = require('../../contenedores/ContenedorArchivo')
 
 class CarritoDaoArchivo extends ContenedorArchivo {
-    constructor(nombreArchivo) {
-        super(nombreArchivo)
+    constructor() {
+        super('./files/carrito.txt')
     }
     async createCart() {
         try {
