@@ -3,7 +3,8 @@ let database = require('./')
 
 console.log(database)
 
-let connection =(async () => {
+let connection;
+(async () => {
     try {
         connection = await mongoose.connect(process.env.MONGO_ATLAS_URI, {
             useNewUrlParser: true
