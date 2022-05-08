@@ -2,23 +2,25 @@ const ProductoDaoArchivo = require('./ProductoDaoArchivo')
 const ProductoDaoMongo = require('./ProductoDaoMongo')
 const ProductoDaoMemoria = require('./ProductoDaoMemoria')
 const ProductoDaoFirebase = require('./ProductoDaoFirebase')
+const config = require('./../../../config')
 
 
-if (process.env.DB === 'Mongo') {
+
+if (config.database.DB === 'Mongo') {
     console.log("loaded Mongo product")
     module.exports = ProductoDaoMongo
 }
-if (process.env.DB === 'Archivo') {
+if (config.database.DB === 'Archivo') {
     console.log("loaded Archivo product")
     module.exports = ProductoDaoArchivo
 }
 
-if (process.env.DB === 'Memoria') {
+if (config.database.DB === 'Memoria') {
     console.log("loaded Memoria product")
     module.exports = ProductoDaoMemoria
 }
 
-if (process.env.DB === 'Firebase') {
+if (config.database.DB === 'Firebase') {
     console.log("loaded Firebase product")
     module.exports = ProductoDaoFirebase
 }

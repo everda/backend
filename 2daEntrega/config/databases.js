@@ -5,7 +5,7 @@ var serviceAccount = require("./curso-backend-a6efd-firebase-adminsdk-8pu1r-2b40
 
 
 if (database.database.DB === 'Firebase') {
-    console.log("loaded Firebase")
+    
     admin.initializeApp({
         credential: admin.credential.cert(serviceAccount)
     });

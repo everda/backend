@@ -35,7 +35,7 @@ class ProductoDaoFirebase extends ContenedorFirebase {
             } else {
                 let id = lastRecord.docs[0].data().id ? lastRecord.docs[0].data().id + 1 : 1;
                 let response = await this.query.add({ id: id, ...product });
-                return response;
+                
             }
         }
         catch (error) {
@@ -51,7 +51,7 @@ class ProductoDaoFirebase extends ContenedorFirebase {
                 return 'Producto inexistente';
             } else {
                 let response = await this.query.doc(doc.docs[0].id).update({ ...product });
-                return response
+                
             }
         }
         catch (error) {
