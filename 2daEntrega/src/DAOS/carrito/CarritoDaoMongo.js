@@ -10,7 +10,12 @@ class CarritoDaoMongo extends ContenedorMongo {
     async getCart(cid) {
         try {
             let response = await this.model.findOne({ id: cid });
-            return response;
+            if (response === null) {
+                return 'Carro inexistente';
+            } else {
+
+                return response;
+            }
         }
         catch (error) {
             console.log(error)
@@ -21,8 +26,8 @@ class CarritoDaoMongo extends ContenedorMongo {
         try {
             let lastRecord = await this.model.findOne({}, {}, { sort: { 'id': -1 } });
             let id = lastRecord ? parseInt(lastRecord.id) + 1 : 1;
-            let response = await this.model.create({ id: id, timestamp: Date.now(), products: [] });
-            return response;
+            await this.model.create({ id: id, timestamp: Date.now(), products: [] });
+
         }
         catch (error) {
             console.log(error)
@@ -31,9 +36,7 @@ class CarritoDaoMongo extends ContenedorMongo {
 
     async deleteCart(id) {
         try {
-            let response = await this.model.findOneAndDelete({ id });
-            return response;
-
+            await this.model.findOneAndDelete({ id });
         }
         catch (error) {
             console.log(error)
@@ -53,8 +56,8 @@ class CarritoDaoMongo extends ContenedorMongo {
                 } else {
                     products.push({ id: product.id, timestamp: Date.now(), quantity: 1 });
                 }
-                let response = await this.model.findOneAndUpdate({ id: id }, { products: products });
-                return cart;
+                await this.model.findOneAndUpdate({ id: id }, { products: products });
+
             }
         }
         catch (error) {
@@ -80,8 +83,8 @@ class CarritoDaoMongo extends ContenedorMongo {
                         products = products.filter(prod => prod.id !== product);
                     }
                 }
-                let response = await this.model.findOneAndUpdate({ id: id }, { products: products });
-                return cart;
+                await this.model.findOneAndUpdate({ id: id }, { products: products });
+
             }
         }
         catch (error) {

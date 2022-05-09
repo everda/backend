@@ -19,8 +19,8 @@ const getProductId = async (req, res) => {
             description: 'id'
         });
     } else {
-        let product = await productModel.getProduct(id);
-        if (!product) {
+        let response  = await productModel.getProduct(id);
+        if (response === 'Producto inexistente') {
             res.status(404).send({
                 message: 'Producto inexistente',
                 description: `id: ${id}`
@@ -28,7 +28,7 @@ const getProductId = async (req, res) => {
         } else {
             res.status(200).send({
                 message: 'Producto',
-                product: product
+                product: response
             }
             );
         }
@@ -40,13 +40,11 @@ const createProduct = async (req, res) => {
     if (!data.title || !data.price || !data.stock) {
         res.status(400).send({
             message: 'Faltan datos',
-            description: 'name, price, stock'
         });
     } else {
-        let product = await productModel.createProduct(data);
+         await productModel.createProduct(data);
         res.status(200).send({
-            message: 'Producto creado',
-            product: product
+            message: 'Producto creado'
         })
     }
 }
@@ -60,16 +58,15 @@ const updateProduct = async (req, res) => {
             description: 'id'
         });
     } else {
-        let product = await productModel.updateProduct(id, data);
-        if (!product) {
+        let response = await productModel.updateProduct(id, data);
+        if (response === 'Producto inexistente') {
             res.status(404).send({
                 message: 'Producto inexistente',
                 description: `id: ${id}`
             });
         } else {
             res.status(200).send({
-                message: 'Producto actualizado',
-                product: product
+                message: 'Producto actualizado'
             }
             );
         }
@@ -84,16 +81,15 @@ const deleteProduct = async (req, res) => {
             description: 'id'
         });
     } else {
-        let product = await productModel.deleteProduct(id);
-        if (!product) {
+        let response = await productModel.deleteProduct(id);
+        if (response === 'Producto inexistente') {
             res.status(404).send({
                 message: 'Producto inexistente',
                 description: `id: ${id}`
             });
         } else {
             res.status(200).send({
-                message: 'Producto eliminado',
-                product: product
+                message: 'Producto eliminado'
             }
             );
         }

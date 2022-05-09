@@ -22,10 +22,13 @@ class ProductoDaoMongo extends ContenedorMongo {
 
     async getProduct(id) {
         try {
-            
-            let response = await this.model.findOne({ id: id });
-            return response;
 
+            let response = await this.model.findOne({ id: id });
+            if (response === null) {
+                return ('Producto inexistente');
+            } else {
+                return response;
+            }
         }
         catch (error) {
             console.log(error)
@@ -36,8 +39,8 @@ class ProductoDaoMongo extends ContenedorMongo {
         try {
             let lastRecord = await this.model.findOne({}, {}, { sort: { 'id': -1 } });
             let id = lastRecord ? parseInt(lastRecord.id) + 1 : 1;
-            let response = await this.model.create({ id: id,  ...product });
-            
+            let response = await this.model.create({ id: id, ...product });
+
             return response;
         }
         catch (error) {

@@ -20,7 +20,11 @@ class ProductoDaoFirebase extends ContenedorFirebase {
     async getProduct(id) {
         try {
             let response = await this.query.where('id', '==', id).get();
-            return response.docs[0].data();
+            if (!response.docs[0]) {
+                return ('Producto inexistente');
+            } else {
+                return response.docs[0].data();
+            }
         }
         catch (error) {
             console.log(error)
@@ -35,7 +39,7 @@ class ProductoDaoFirebase extends ContenedorFirebase {
             } else {
                 let id = lastRecord.docs[0].data().id ? lastRecord.docs[0].data().id + 1 : 1;
                 let response = await this.query.add({ id: id, ...product });
-                
+
             }
         }
         catch (error) {
@@ -47,11 +51,11 @@ class ProductoDaoFirebase extends ContenedorFirebase {
     async updateProduct(id, product) {
         try {
             let doc = await this.query.where('id', '==', id).get();
-            if (!doc) {
+            if (!doc.docs[0]) {
                 return 'Producto inexistente';
             } else {
-                let response = await this.query.doc(doc.docs[0].id).update({ ...product });
-                
+                await this.query.doc(doc.docs[0].id).update({ ...product });
+
             }
         }
         catch (error) {
@@ -63,7 +67,8 @@ class ProductoDaoFirebase extends ContenedorFirebase {
     async deleteProduct(id) {
         try {
             let doc = await this.query.where('id', '==', id).get();
-            if (!doc) {
+            console.log(doc.docs[0])
+            if (!doc.docs[0]) {
                 return 'Producto inexistente';
             } else {
                 let response = await this.query.doc(doc.docs[0].id).delete();

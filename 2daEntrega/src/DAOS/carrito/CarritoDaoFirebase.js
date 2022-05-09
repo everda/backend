@@ -9,7 +9,7 @@ class CarritoDaoFirebase extends ContenedorFirebase {
     async getCart(cid) {
         let response = await this.query.where('id', '==', cid).get();
         if (response.empty) {
-            return null;
+            return 'Carro inexistente';
         }
         return response.docs[0].data();
     }
@@ -28,55 +28,58 @@ class CarritoDaoFirebase extends ContenedorFirebase {
 
     async deleteCart(id) {
         let doc = await this.query.where('id', '==', id).get();
-        let response = await this.query.doc(doc.docs[0].id).delete();
-        return response;
-    }
-
-    async addProduct(id, product) {
-        let doc = await this.query.where('id', '==', id).get();
-        if (!doc) {
+        if (!doc.docs[0] === undefined) {
             return 'Carro inexistente';
         } else {
-            let products = doc.docs[0].data().products;
-            let productId = products.find(prod => prod.id === product.id);
-            if (productId) {
-                productId.quantity += 1;
-            } else {
-                products.push({ id: product.id, timestamp: Date.now(), quantity: 1 });
-            }
-            let response = await this.query.doc(doc.docs[0].id).update({ products: products });
-            return doc.docs[0].data();
+            await this.query.doc(doc.docs[0].id).delete();
         }
     }
-
-    async removeProduct(id, product) {
-        let doc = await this.query.where('id', '==', id).get();
-
-        if (doc.empty) {
-            return 'Carro inexistente';
-        } else {
-            let products = doc.docs[0].data().products;
-            let productId = products.find(prod => prod.id === product);
-            if (productId) {
-                if (productId.quantity > 1) {
-
-                    productId.quantity -= 1;
+    
+    async addProduct(id, product) {
+            let doc = await this.query.where('id', '==', id).get();
+            if (doc.docs[0]=== undefined) {
+                return 'Carro inexistente';
+            } else {
+                let products = doc.docs[0].data().products;
+                let productId = products.find(prod => prod.id === product.id);
+                if (productId) {
+                    productId.quantity += 1;
                 } else {
-                    products = products.filter(prod => prod.id !== product);
+                    products.push({ id: product.id, timestamp: Date.now(), quantity: 1 });
                 }
                 let response = await this.query.doc(doc.docs[0].id).update({ products: products });
                 return doc.docs[0].data();
+            }
+        }
 
+    async removeProduct(id, product) {
+            let doc = await this.query.where('id', '==', id).get();
+
+            if (doc.docs[0] === undefined) {
+                return 'Carro inexistente';
             } else {
-                return 'Producto inexistente';
+                let products = doc.docs[0].data().products;
+                let productId = products.find(prod => prod.id === product);
+                if (productId) {
+                    if (productId.quantity > 1) {
+
+                        productId.quantity -= 1;
+                    } else {
+                        products = products.filter(prod => prod.id !== product);
+                    }
+                    let response = await this.query.doc(doc.docs[0].id).update({ products: products });
+                    return doc.docs[0].data();
+
+                } else {
+                    return 'Producto inexistente';
+                }
+
+
             }
 
 
         }
-
-
     }
-}
 
 
 module.exports = CarritoDaoFirebase;
