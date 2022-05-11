@@ -1,0 +1,46 @@
+<h1>Bienvenidos</h1>
+<div class="container justify-content-center">
+    <div id="chat">
+        <div>
+            <form>
+                <div class="form-group">
+                    <label for="name">Nombre</label>
+                    <input type="text" class="form-control" id="name" required value = "test">
+                    <label for="lastname">Apellido</label>
+                    <input type="text" class="form-control" id="lastname" required value = "apellidoTest">
+                    <label for="Email">Email</label>
+                    <input type="email" class="form-control" id="email" required value = "emailTest@test.com">
+                    <label for="age">Edad</label>
+                    <input type="number" class="form-control" id="age" required value = "23">
+                    <label for="alias">alias</label>
+                    <input type="text" class="form-control" id="alias" required value ="testy">
+                    <label for="avatar"></label>
+                    <input type="text" class="form-control" id="avatar" required pattern="https://.*"
+                        value="https://i.pravatar.cc/100">
+                    <button  id="login">enviar</button>
+                </div>
+
+            </form>
+        </div>
+
+
+    </div>
+    <div>
+        <div id="chat-messages"></div>
+    </div>
+
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <input type="text" name="" id="chatBox">
+        </div>
+
+
+    </div>
+</div>
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="../../socket.io/socket.io.js"></script>
+<script src="../index.js"></script>
