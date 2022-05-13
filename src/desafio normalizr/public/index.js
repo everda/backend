@@ -20,6 +20,7 @@ let chatBox = document.getElementById("chatBox");
 let chat = document.getElementById("chat");
 let chatMessages = document.getElementById("chat-messages");
 let login = document.getElementById("login");
+let compresionTag = document.getElementById("compresion");
 let author = {};
 
 login.addEventListener("click", (e) => {
@@ -72,10 +73,13 @@ chatBox.addEventListener("keyup", (evt) => {
             });
             chatBox.value = "";
         }
-            
+
+
     }
-   
+
 });
+const authorSchema = new normalizr.schema.Entity('author', {}, { idAttribute: 'email' });
+const chatSchema = new normalizr.schema.Entity('chat', { mensajes: [{ author: authorSchema }] });
 
 const startChat = () => {
     /*Socket events*/
@@ -83,11 +87,18 @@ const startChat = () => {
     socket.emit('init', author);
     socket.on("log", (data) => {
         let mensajes = "";
-        console.log("entre")
-        
-        data.forEach(log => {
+
+        let chat = normalizr.denormalize(data.result, chatSchema, data.entities);
+        console.log(chat)
+        console.log(JSON.stringify(data).length )
+        console.log( JSON.stringify(chat).length)
+        let compression = (1 - (JSON.stringify(data).length / JSON.stringify(chat).length)) * 100
+        compresionTag.innerHTML = `<h2> la compresion fue de ${compression.toFixed(2)}%</h2>`
+
+
+        chat.mensajes.forEach(log => {
             console.log(log.author.alias)
-            if (author.email === log.author.email   ) {
+            if (author.email === log.author.email) {
                 mensajes += `<div class="row justify-content-end">
             <div class="col-md-10">
                 <div class="card">

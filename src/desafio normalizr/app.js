@@ -2,6 +2,10 @@ const express = require("express");
 const app = express();
 const handlebars = require("express-handlebars");
 const { Server } = require("socket.io");
+const db = require("./src/models/messageModelArchivo.js");
+let { schema, normalize, desnormalize } = require('normalizr');
+
+const dbdata = new db()
 
 
 
@@ -22,23 +26,44 @@ app.use((req, res, next) => {
 
 
 
+
 const io = new Server(server);
-let chatLog = [];
+(async () => {
+    let chatLog = JSON.parse(await dbdata.getData());
+    const authorSchema = new schema.Entity('author', {}, { idAttribute: 'email' });
+    //const mensaje = new schema.Entity('message', {author }, 'text');
+    const chatSchema = new schema.Entity('chat', { mensajes: [{author: authorSchema}] });
+//console.log(chatLog.mensajes)
 
-io.on("connection", socket => {
-    console.log("cliente conectado");
-    console.log("envio");
-    socket.on('init', () => {
-        socket.emit("log", chatLog);
-    });
-    socket.on("mensaje", data => {
-        chatLog.push(data);
+    const util = require('util');
+    let chatNormalizado = normalize(chatLog, chatSchema);
+   // console.log(util.inspect(chatNormalizado, false, 12, false))
 
-        io.emit("chatLog", chatLog);
+    console.log(chatNormalizado.entities.chat.mensajes);
+    // chatLog = normalize(chatLog, [schema]);
+
+
+
+    io.on("connection", socket => {
+        console.log("cliente conectado");
+        console.log("envio");
+        socket.on('init', () => {
+            socket.emit("log", chatNormalizado);
+        });
+        socket.on("mensaje", async (data) => {
+            // console.log(chatLog.mensajes);
+            //data = desnormalize(data, schema);
+            chatLog.mensajes.push(data);
+            await dbdata.saveData(chatLog);
+            chatNormalizado = normalize(chatLog, chatSchema);
+            io.emit("log", chatNormalizado);
+        }
+        );
     }
     );
+
 }
-);
+)();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
