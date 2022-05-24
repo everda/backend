@@ -19,6 +19,7 @@ app.use(expressSession({
     }),
     secret: "secret",
     resave: false,
+    cookie: { maxAge: 1000 *60 *10 },
     saveUninitialized: false
 }));
 
@@ -33,13 +34,6 @@ const server = app.listen(port, () => {
     console.log(`Listening service on port ${port}`);
 }
 );
-
-
-app.use(expressSession({
-    secret: "secret",
-    resave: false,
-    saveUninitialized: false
-}));
 
 
 app.use((req, res, next) => {
@@ -122,6 +116,6 @@ app.use('/getData', (req, res) => {
 });
 
 app.use('/logout', (req, res) => {
-    res.redirect('/logout');
     req.session.destroy();
+
 });

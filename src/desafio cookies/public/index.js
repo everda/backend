@@ -49,11 +49,13 @@ if (login) {
     );
 }
 
-logout.addEventListener("click", (e) => {
-    fetch('/logout', {
-        method: 'GET'
+if (logout) {
+    logout.addEventListener("click", (e) => {
+        fetch('/logout', {
+            method: 'GET'
+        })
     })
-})
+}
 
 const startLoginChat = async () => {
     let response = await fetch('/getData');
@@ -63,27 +65,29 @@ const startLoginChat = async () => {
 }
 
 
+if (startChatButton) {
+    startChatButton.addEventListener("click", (e) => startLoginChat());
+}
 
-startChatButton.addEventListener("click", (e) => startLoginChat());
+
+if (chatBox) {
+    chatBox.addEventListener("keyup", (evt) => {
+        evt.preventDefault();
+        if (evt.key === "Enter") {
+            if (chatBox.value.trim() !== "") {
+                console.log(chatBox.value)
+                socket.emit("mensaje", {
+                    author: author, text: chatBox.value.trim()
+                });
+                chatBox.value = "";
+            }
 
 
-
-
-chatBox.addEventListener("keyup", (evt) => {
-    evt.preventDefault();
-    if (evt.key === "Enter") {
-        if (chatBox.value.trim() !== "") {
-            console.log(chatBox.value)
-            socket.emit("mensaje", {
-                author: author, text: chatBox.value.trim()
-            });
-            chatBox.value = "";
         }
 
+    });
+}
 
-    }
-
-});
 const authorSchema = new normalizr.schema.Entity('author', {}, { idAttribute: 'email' });
 const chatSchema = new normalizr.schema.Entity('chat', { mensajes: [{ author: authorSchema }] });
 
@@ -101,7 +105,7 @@ const startChat = () => {
         console.log(JSON.stringify(chat).length)
         let compression = (1 - (JSON.stringify(data).length / JSON.stringify(chat).length)) * 100
         compresionTag.innerHTML = `<h2> la compresion fue de ${compression.toFixed(2)}%</h2>
-        <a href = "/logout">logout<a>`
+        <a href = "/logout">logout</a>`
 
 
         chat.mensajes.forEach(log => {
