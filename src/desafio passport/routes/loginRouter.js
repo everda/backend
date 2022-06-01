@@ -61,8 +61,8 @@ let loginRouter = exppress.Router()
 // loginRouter.use('/logOut', loginController.logOutUser);
 
 
-loginRouter.post('/login', passport.authenticate('login', { failureRedirect: "error", successRedirect: "home" }) );
-loginRouter.post('/register', passport.authenticate('register', { failureRedirect: "error", successRedirect: "login", failureMessage:"error al verificar"}));
+loginRouter.post('/login', passport.authenticate('login', { failureRedirect: "errorLogin", successRedirect: "home" }) );
+loginRouter.post('/register', passport.authenticate('register', { failureRedirect: "errorRegister", successRedirect: "login", failureMessage:"error al verificar"}));
 loginRouter.use('/logOut', passportController.logOutUser);
 
 

@@ -23,16 +23,27 @@ let getRegisterPage = async (req, res) => {
 let getHomePage = async (req, res) => {
     try {
         console.log("entre a home");
-        res.render('home.handlebars')
+        console.log(req);
+        res.render('home.handlebars', {username: req.user})
     } catch (error) {
         console.log(error);
     }
 }
 
-let getErrorPage = async (req, res) => {
+let getErrorLoginPage = async (req, res) => {
     try {
         console.log("entre a error");
-        res.render('error.handlebars')
+        res.render('loginError.handlebars')
+    } catch (error) {
+        console.log(error);
+
+    }
+}
+
+let getErrorRegisterPage = async (req, res) => {
+    try {
+        console.log("entre a error");
+        res.render('registerError.handlebars')
     } catch (error) {
         console.log(error);
 
@@ -52,6 +63,6 @@ module.exports = {
     getLoginPage,
     getRegisterPage,
     getHomePage,
-    getErrorPage, getLogOutPage
+    getErrorLoginPage, getLogOutPage, getErrorRegisterPage
 
 }
