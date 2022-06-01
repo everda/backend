@@ -17,6 +17,7 @@ viewsRouter.get('/home',   passportController.isLogin,viewsController.getHomePag
 viewsRouter.get('/errorLogin',  passportController.isNotLogin, viewsController.getErrorLoginPage);
 viewsRouter.get('/errorRegister',  passportController.isNotLogin, viewsController.getErrorRegisterPage);
 viewsRouter.get('/logout', passportController.isNotLogin, viewsController.getLogOutPage);
+viewsRouter.get('/', passportController.isNotLogin, viewsController.getLoginPage)
 
 
 

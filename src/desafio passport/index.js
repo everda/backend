@@ -42,7 +42,7 @@ app.use((req, res, next) => {
 
 app.use(expressSession({
     store: mongoStore.create({
-        mongoUrl: "mongodb+srv://root:root@cluster0.5dnqz.mongodb.net/everdadb?retryWrites=true&w=majority",
+        mongoUrl: config.mongoUrl,
         mongoOptions: advancedOptions
     }),
     secret: "secret",
