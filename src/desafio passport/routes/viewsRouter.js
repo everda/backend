@@ -10,14 +10,14 @@ let viewsRouter = exppress.Router()
 // viewsRouter.get('/home', loginController.isLogin, viewsController.getHomePage);
 // viewsRouter.get('/error', loginController.isNotLogin, viewsController.getErrorPage);
 // viewsRouter.get('/logout', loginController.isNotLogin,viewsController.getLogOutPage);
-
+viewsRouter.get('/', passportController.isNotLogin, viewsController.getLoginPage)
 viewsRouter.get('/login', passportController.isNotLogin, viewsController.getLoginPage);
 viewsRouter.get('/register',  passportController.isNotLogin,viewsController.getRegisterPage);
 viewsRouter.get('/home',   passportController.isLogin,viewsController.getHomePage);
 viewsRouter.get('/errorLogin',  passportController.isNotLogin, viewsController.getErrorLoginPage);
 viewsRouter.get('/errorRegister',  passportController.isNotLogin, viewsController.getErrorRegisterPage);
-viewsRouter.get('/logout', passportController.isNotLogin, viewsController.getLogOutPage);
-viewsRouter.get('/', passportController.isNotLogin, viewsController.getLoginPage)
+viewsRouter.get('/logout',  viewsController.getLogOutPage);
+
 
 
 

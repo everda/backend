@@ -5,12 +5,14 @@ const { Server } = require("socket.io");
 const db = require("./src/models/messageModelArchivo.js");
 let { schema, normalize, desnormalize } = require('normalizr');
 const expressSession = require("express-session");
-const mongoStore = require("connect-mongo")
+const mongoStore = require("connect-mongo");
+
 
 const advancedOptions = {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 }
+app.use(express.static("public"));
 
 app.use(expressSession({
     store: mongoStore.create({

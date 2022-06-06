@@ -5,6 +5,7 @@ const { cartSchema } = require('../../schemas/cartSchema');
 class CarritoDaoMongo extends ContenedorMongo {
     constructor() {
         super(cartSchema, 'cartCollection');
+        console.log(this.model);
     }
 
     async getCart(cid) {

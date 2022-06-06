@@ -27,3 +27,5 @@ Router.get('/admin/addProduct', viewsController.showAdminAddproduct);
 
 
 export default Router;
+
+

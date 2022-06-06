@@ -27,10 +27,10 @@ passport.use('register', new LocalStrategy({
     passReqToCallback: true
 }, async (req, username, password, done) => {
     try {
-        
+
         let data = { username: username, name: req.body.name, lastname: req.body.lastname, password: password }
         let checkUser = await userInstance.getUsername(data.username)
-        console.log(checkUser);
+
         if (checkUser) {
             return done(null, false)
         } else {
@@ -79,8 +79,8 @@ let registerUser = async (req, res, next) => {
 let logOutUser = async (req, res, next) => {
     try {
         console.log("entre a logout");
-        req.session.destroy()
-        res.redirect('/login')
+        req.session.destroy();
+        next()
     } catch (error) {
 
     }
