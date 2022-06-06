@@ -1,0 +1,18 @@
+<div>
+    hola desde home
+    Email: {{username}}
+
+</div>
+<a href="/chat">CHAT</a>
+<a href="/logout">logout</a>
+
+<div>
+    <h1>Test Productos</h1>
+    {{#each products}}
+    <div>{{name}}</div>
+    <div>{{price}}</div>
+    <div>
+        <img src={{image}} alt={{name}}>
+    </div>
+    {{/each}}
+</div>
