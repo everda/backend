@@ -1,0 +1,4 @@
+2022/06/08 19:42:24 [error] 15240#16624: *1 CreateFile() "C:\Users\Enrique\Documents\nginx-1.21.6/html/favicon.ico" failed (2: El sistema no puede encontrar el archivo especificado), client: 127.0.0.1, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "localhost", referrer: "http://localhost/"
+2022/06/08 19:42:49 [notice] 13928#11144: signal process started
+2022/06/14 19:22:35 [error] 16476#14348: *1 CreateFile() "C:\Users\Enrique\Documents\CursoBackend\src\desafio Cluster\ngix/html/favicon.ico" failed (2: El sistema no puede encontrar el archivo especificado), client: 127.0.0.1, server: nginx_node, request: "GET /favicon.ico HTTP/1.1", host: "localhost", referrer: "http://localhost/"
+2022/06/14 19:23:42 [notice] 15544#2720: signal process started

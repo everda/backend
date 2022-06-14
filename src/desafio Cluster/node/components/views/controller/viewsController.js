@@ -22,7 +22,8 @@ let getRegisterPage = async (req, res) => {
 
 let getHomePage = async (req, res) => {
     try {
-        
+        console.log("entre a home");
+        console.log(req);
         res.render('home.handlebars', {username: req.user , title:'home'})
     } catch (error) {
         console.log(error);
