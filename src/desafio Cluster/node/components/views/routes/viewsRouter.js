@@ -1,7 +1,7 @@
 const exppress = require('express')
 const viewsController = require('../controller/viewsController.js')
 //const loginController = require('../components/login/controller/loginController')
-const passportController  = require('../components/login/controller/passportController.js')
+const passportController  = require('../components/login/controller/passportController.js.js')
 
 let viewsRouter = exppress.Router()
 

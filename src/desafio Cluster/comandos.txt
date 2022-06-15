@@ -1,0 +1,10 @@
+
+Levantar modo fork 
+forever index.js FORK 8080
+
+Levantar modo Cluster
+forever index.js CLUSTER 8080
+
+listar procesos forever
+forever list
+
