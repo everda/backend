@@ -4,7 +4,7 @@
   "main": "./src/Desafio heroku/index.js",
   "type": "module",
   "scripts": {
-    "start": "node ./src/Desafio heroku/index.js",
+    "start": "node ./src/Desafioheroku/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
