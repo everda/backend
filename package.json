@@ -1,11 +1,10 @@
 {
   "name": "curso-backend",
   "version": "1.0.0",
-  "main": "./1erEntrega/app.js",
+  "main": "./src/Desafio heroku/index.js",
   "type": "module",
   "scripts": {
-    "build": "babel ./src -d ./dist",
-    "start": "nodemon ./1erEntrega/app.js",
+    "start": "node ./src/Desafio heroku/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
