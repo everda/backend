@@ -1,0 +1,55 @@
+<div>
+    <h1>Hola {{lastname}}, {{name}}</h1>
+    <h2>tus datos: </h2>
+    <ul>
+        <li>Email: {{username}}</li>
+        <li>prefijo: {{prefijo}}</li>
+        <li>telefono: {{numero}}</li>
+        <li>edad: {{edad}}</li>
+        <li>direccion: {{direccion}}</li>
+    </ul>
+    <img src="{{foto}}" alt="foto">
+
+
+
+
+</div>
+<a href="/chat">CHAT</a>
+{{!-- <a href="/api/randoms?cant=100">random</a> --}}
+<a href="" id="goToCart">Cart</a>
+<a href="/logout">logout</a>
+
+<div class="container">
+    <h1>Test Productos</h1>
+    {{!-- {{#each products}}
+    <div>{{name}}</div>
+    <div>{{price}}</div>
+    <div>
+        <img src={{image}} alt={{name}}>
+    </div>
+    {{/each}} --}}
+    <div class="container row">
+        {{#each products}}
+        <div class="card col-6">
+            <div class="card-header">
+                <div class="card-body">
+                    <div class="col-md-9">
+                        <h4 class="card-title">{{name}}</h4>
+                        <div>
+                            <img src={{image}} alt={{name}}>
+                        </div>
+                        <p class="card-text">precio:{{price}}</p>
+                        <button class="btn btn-primary" id="btn" key="{{id}}">Agregar al
+                            carrito</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+
+
+
+</div>
+</div>
+<script src="../js/home.js"></script>
