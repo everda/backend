@@ -11,15 +11,17 @@ passport.use('login', new LocalStrategy(async (username, password, done) => {
     try {
 
         let response = await userInstance.validateLogin(username, password)
-
         if (response.status === "ok") {
             return done(null, username)
         } else {
+            //req.session.destroy
             return done(null, false)
+
         }
 
 
     } catch (error) {
+        console.log(error);
         winston.errorLogger.error(error)
     }
 }))
@@ -31,7 +33,7 @@ passport.use('register', new LocalStrategy({
         //console.log(req.body);
         let foto = req.body.file.split('\\')[2]
         let dir = path.join('/img/', foto)
-        
+
         let data = {
             username: username, name: req.body.name, lastname: req.body.lastname, password: password, direccion: req.body.direccion,
             edad: req.body.edad,

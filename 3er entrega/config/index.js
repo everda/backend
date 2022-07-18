@@ -15,7 +15,8 @@ let config = {
     twilio_authtoken: process.env.TWILIO_AUTHTOKEN,
     twilio_number: process.env.TWILIO_NUMBER,
     twilio_whatsapp: process.env.TWILIO_WHATSAPP,
-    twilio_waReciever: process.env.TWILIO_WARECIEVER
+    twilio_waReciever: process.env.TWILIO_WARECIEVER,
+    prueba:"prueba"
 
 }
 

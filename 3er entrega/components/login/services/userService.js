@@ -40,8 +40,12 @@ class UserService extends MongoModel {
     comparePassword = async (hash, pass) => {
         try {
             let validate = await bcrypt.compare(pass, hash)
+            console.log(validate);
+            console.log("valido");
             if (validate) {
+
                 return {
+
 
                     status: "ok",
                     message: "user logged"
@@ -59,14 +63,27 @@ class UserService extends MongoModel {
 
     validateLogin = async (email, password) => {
         try {
-            let userPass = await this.model.findOne({ email: email })
-            let response = await this.comparePassword(userPass.password, password)
+            
+            let userPass = await this.model.findOne({ "username": email })
+            
+            if (userPass) {
+                let response = await this.comparePassword(userPass.password, password)
 
-            return response
+                return response
+            }
+            else {
+                
+                return {
+
+                    status: "error",
+                    message: "no user"
+                }
+            }
 
 
 
         } catch (error) {
+            console.log(error);
             winston.errorLogger.error(error)
         }
     }

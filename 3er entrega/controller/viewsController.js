@@ -34,19 +34,23 @@ let getHomePage = async (req, res) => {
         let user = await passportController.userInstance.getUsernameData(req.user)
         console.log(user);
 
-
-        res.render('home.handlebars', {
-            username: req.user,
-            name: user.name,
-            lastname: user.lastname,
-            direccion: user.direccion,
-            edad: user.edad,
-            prefijo: user.prefijo,
-            numero: user.numero,
-            foto: user.foto,
-            title: 'home',
-            products: products,
-        })
+        if (user) {
+            res.render('home.handlebars', {
+                username: req.user,
+                name: user.name,
+                lastname: user.lastname,
+                direccion: user.direccion,
+                edad: user.edad,
+                prefijo: user.prefijo,
+                numero: user.numero,
+                foto: user.foto,
+                title: 'home',
+                products: products,
+            })
+        }
+        else  {
+            res.render('loginError.handlebars') 
+        }
     } catch (error) {
         console.log(error);
         winston.errorLogger.error(error)
