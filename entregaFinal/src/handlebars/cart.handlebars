@@ -1,0 +1,39 @@
+<div>
+    Hola Juli
+    Email: {{username}}
+    Estas en CART
+
+</div>
+<a href="/chat">CHAT</a>
+<a href="/">home</a>
+<a href="/logout">logout</a>
+
+<div class="container">
+    <h1>Tus productos</h1>
+    <div class="container row">
+        {{#each products}}
+        <div class="card col-6">
+            <div class="card-header">
+                <div class="card-body">
+                    <div class="col-md-9">
+                        <h4 class="card-title">{{title}}</h4>
+                        <div>
+                            <img src={{thumbnail}} alt={{title}}>
+                        </div>
+                        <p class="card-text">precio:{{price}}</p>
+                        <p class="card-text">cantidad:{{quantity}}</p>
+                        {{!-- <button class="btn btn-primary" id="btn" key="{{id}}">eliminar</button> --}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+    <h1>finalizar pedido</h1>
+    <button class="btn btn-primary" id="sendBtn">enviar pedido</button>
+
+
+
+</div>
+</div>
+<script src="../js/cart.js"></script>

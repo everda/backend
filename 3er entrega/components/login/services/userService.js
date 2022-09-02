@@ -151,4 +151,4 @@ class UserService extends MongoModel {
 
 }
 
-module.exports = UserService
+module.exports = new UserService()

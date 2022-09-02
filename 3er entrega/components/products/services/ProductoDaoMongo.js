@@ -34,7 +34,7 @@ class ProductoDaoMongo extends ContenedorMongo {
 
     async getProducts() {
         try {
-            let response = await this.model.find({});
+            let response = await this.model.find({}).lean();
             return response;
 
         } catch (error) {
@@ -92,4 +92,4 @@ class ProductoDaoMongo extends ContenedorMongo {
 }
 
 
-module.exports = ProductoDaoMongo;
+module.exports = new ProductoDaoMongo ()

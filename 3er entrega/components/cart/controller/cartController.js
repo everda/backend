@@ -1,9 +1,9 @@
-const CarritoDao = require('../services/CarritoDao')
+const cartModel = require('../services/CarritoDao')
 const productController = require('../../products/controller/productController')
-const cartModel = new CarritoDao();
 const mailer = require('../../../utils/mailer/nodemailer')
-const { sendTwillioMessage, sendUserMessage  } = require('../../../utils/twillio/twilio')
+const { sendTwillioMessage, sendUserMessage } = require('../../../utils/twillio/twilio')
 const user = require('../../login/controller/passportController')
+const winston = require('winston/lib/winston/config')
 
 //Crear un carro (Funcion del POST)
 const createCart = async (req, res) => {
@@ -14,6 +14,7 @@ const createCart = async (req, res) => {
             cart: data
         })
     } catch (error) {
+        console.log(error);
         res.status(500).send({
             message: 'Error al crear el carro',
             error
@@ -177,10 +178,10 @@ const confirmCart = async (req, res) => {
     try {
         let cartId = parseInt(req.params.cid)
         let userData = await user.userInstance.getUsernameData(req.user)
-        
+
         let userPhone = userData.prefijo + userData.numero
         console.log(userPhone);
-        
+
         if (cartId === undefined) {
             res.status(400).send({
                 message: 'Faltan datos',
@@ -203,7 +204,7 @@ const confirmCart = async (req, res) => {
             sendUserMessage(userPhone, "pedido confirmado")
             mailer.sendConfirmationMail(req.user, JSON.stringify(products))
             sendTwillioMessage('pedido enviado')
-            
+
 
             res.status(200).send({
                 message: "carro Confirmado"
@@ -233,7 +234,6 @@ module.exports = {
     deleteCartId,
     addProduct,
     removeProduct,
-    cartModel,
     confirmCart
 
 }

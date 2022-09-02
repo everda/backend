@@ -32,17 +32,13 @@ class messageModelMongo extends ContainerMongo {
     async saveMessage(message) {
         try {
             let oldMessages = await this.getMessages()
-            console.log("estoy aca");
             if (oldMessages.mensajes.length === 0) {
 
                 let response = await this.model.create(message);
 
                 return "creado"
             } else {
-                console.log("entro mal");
-                console.log(message);
                 let response = await this.model.findOneAndUpdate({ id: 'mensajes', mensajes: message.mensajes });
-                console.log("actualizo");
                 return "creado";
             }
         } catch (error) {
@@ -53,4 +49,4 @@ class messageModelMongo extends ContainerMongo {
 
 }
 
-module.exports = messageModelMongo;
+module.exports = new messageModelMongo();

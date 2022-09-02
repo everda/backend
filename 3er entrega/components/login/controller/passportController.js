@@ -1,10 +1,10 @@
-const userService = require('../services/userService.js')
+const userInstance = require('../services/userService.js')
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 const winston = require('../../../utils/loggers/winston')
 const path = require('path');
 
-const userInstance = new userService()
+//const userInstance = new userService()
 
 
 passport.use('login', new LocalStrategy(async (username, password, done) => {
@@ -136,5 +136,5 @@ let getUserInfo = async (req, res, next) => {
 }
 
 module.exports = {
-    loginUser, registerUser, logOutUser, isLogin, isNotLogin, passport, getUserInfo, userInstance
+    loginUser, registerUser, logOutUser, isLogin, isNotLogin, passport, getUserInfo
 }

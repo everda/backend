@@ -1,7 +1,7 @@
-const ProductoDao = require('../services/ProductoDao')
+const productModel = require('../services/ProductoDao')
 const winston = require('../../../utils/loggers/winston')
 
-const productModel = new ProductoDao();
+//const productModel = new ProductoDao();
 
 
 const getProducts = async (req, res) => {
@@ -148,5 +148,5 @@ module.exports = {
     getProductId,
     createProduct,
     updateProduct,
-    deleteProduct, getPorudctsTest, productModel
+    deleteProduct, getPorudctsTest
 }

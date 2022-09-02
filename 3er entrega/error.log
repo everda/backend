@@ -92,3 +92,11 @@
 {"level":"error","timestamp":"2022-07-18T17:43:10.353Z"}
 {"level":"error","timestamp":"2022-07-18T17:43:48.396Z"}
 {"level":"error","timestamp":"2022-07-18T17:44:09.366Z"}
+{"level":"error","timestamp":"2022-07-23T14:44:35.627Z"}
+{"level":"error","timestamp":"2022-07-23T14:44:50.564Z"}
+{"kind":"Number","message":"Cast to Number failed for value \"undefined\" (type string) at path \"id\" for model \"cartCollection\"","name":"CastError","path":"id","reason":{"actual":false,"code":"ERR_ASSERTION","expected":true,"generatedMessage":true,"operator":"=="},"stringValue":"\"undefined\"","value":"undefined","valueType":"string"}
+{"level":"error","timestamp":"2022-08-27T22:39:00.151Z"}
+{"kind":"Number","message":"Cast to Number failed for value \"undefined\" (type string) at path \"id\" for model \"cartCollection\"","name":"CastError","path":"id","reason":{"actual":false,"code":"ERR_ASSERTION","expected":true,"generatedMessage":true,"operator":"=="},"stringValue":"\"undefined\"","value":"undefined","valueType":"string"}
+{"level":"error","timestamp":"2022-08-27T22:40:46.600Z"}
+{"kind":"Number","message":"Cast to Number failed for value \"undefined\" (type string) at path \"id\" for model \"cartCollection\"","name":"CastError","path":"id","reason":{"actual":false,"code":"ERR_ASSERTION","expected":true,"generatedMessage":true,"operator":"=="},"stringValue":"\"undefined\"","value":"undefined","valueType":"string"}
+{"level":"error","timestamp":"2022-08-27T22:41:26.592Z"}

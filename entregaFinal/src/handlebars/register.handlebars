@@ -1,0 +1,33 @@
+<div>
+    <h1>Please Register</h1>
+    <form action="" id="myForm">
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" required value="test">
+            <label for="lastname">Lastname</label>
+            <input type="text" class="form-control" id="lastname" required value="apellidoTest">
+            <label for="direccion">Direccion</label>
+            <input type="text" class="form-control" id="direccion" required value="direccion">
+            <label for="edad">Edad</label>
+            <input type="text" class="form-control" id="edad" required value="50">
+            <label for="prefijo">prefijo</label>
+            {{!-- <input type="text" class="form-control" id="prefijo" required value="11"> --}}
+            <select class="form-control" id="prefijo" required>
+                <option>+54</option>
+                <option>+57</option>
+            </select>
+            <label for="telefono">telefono</label>
+            <input type="text" class="form-control" id="telefono" required value="12312312">
+            <label>foto</label>
+            <input type="file" name="file" required id="file">
+            <label for="Email">Email</label>
+            <input type="email" class="form-control" id="email" required value="">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" required value="">
+            <label for="Password Confirmation">Please confirm your Password</label>
+            <input type="password" class="form-control" id="passwordConfirmation" required value="">
+            <input type="submit" id="submit">
+    </form>
+    <a href="/login">ir a login</a>
+</div>
+<script src="./js/register.js"></script>
