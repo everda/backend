@@ -3,7 +3,7 @@ const handlebars = require('express-handlebars');
 const cors = require('cors')
 let config = require('./config/index.js');
 let winston = require('./utils/loggers/winston')
-//const chatInit = require('./components/chat')
+const chatInit = require('./components/chat')
 const startSession = require('./components/login')
 const routes = require('./routes')
 const morgan = require('morgan')
@@ -17,9 +17,10 @@ class Server {
         this.views();
         this.middleware();
         this.routes();
-        this.startChat();
+        this.chatInit()
         this.expressSession();
         this.middlewareError()
+
     }
 
     settings() {
@@ -56,11 +57,10 @@ class Server {
 
         })
         this.app.use((err, req, res, next) => {
-            res.status = (err.status || 500)
-
-            res.send({
+            let status = (err.status || 500)
+            res.status(status).send({
                 error: {
-                    status: err.status || 500,
+                    status: "error",
                     message: err.message
                 }
             })
@@ -72,8 +72,8 @@ class Server {
         routes(this.app);
 
     }
-    startChat() {
-        //  chatInit(this.app)
+    chatInit() {
+        //  chatInit(this.server)
 
     }
 
@@ -84,7 +84,7 @@ class Server {
 
 
     init() {
-        this.app.listen(this.port, () => { winston.consoleLogger.info(`http://localhost:${this.port}`) });
+        this.server = this.app.listen(this.port, () => { winston.consoleLogger.info(`http://localhost:${this.port}`) });
     }
 }
 

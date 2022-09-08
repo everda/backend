@@ -16,23 +16,24 @@ const sendTwillioMessage = async (message) => {
             body: message,
             to: config.twilio_waReciever
 
-        }).then(element => { console.log(element); })
-        
+        })
+
     } catch (error) {
         winston.errorLogger.error(error)
     }
 }
 const sendUserMessage = async (clientNumber, message) => {
     try {
-        console.log("Envio SMS");
+
         twilio_client.messages.create({
             from: config.twilio_number,
             body: message,
             to: clientNumber
 
-        }).then(element => { console.log(element); })
-        
+        })
+
     } catch (error) {
+        console.log(error);
         winston.errorLogger.error(error)
     }
 }

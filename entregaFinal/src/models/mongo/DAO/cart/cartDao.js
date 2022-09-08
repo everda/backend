@@ -1,5 +1,4 @@
 const MongoModel = require('../mongoDAO');
-const winston = require('../../../../utils/loggers/winston')
 const { cartSchema } = require('./cartSchema');
 
 class CartDao extends MongoModel {
@@ -10,17 +9,14 @@ class CartDao extends MongoModel {
 
     async getCart(cid) {
         try {
+            console.log(cid);
             let response = await this.model.findOne({ id: cid });
-            if (response === null) {
-                return 'Carro inexistente';
-            } else {
-
-                return response;
-            }
+            return response;
         }
         catch (error) {
             //console.log(error)
-            winston.errorLogger.error(error)
+
+            return { status: "error", error: error }
         }
     }
 
@@ -28,88 +24,43 @@ class CartDao extends MongoModel {
         try {
             let lastRecord = await this.model.findOne({}, {}, { sort: { 'id': -1 } });
             let id = lastRecord ? parseInt(lastRecord.id) + 1 : 1;
-            await this.model.create({ id: id, timestamp: Date.now(), products: [] });
-            return id
+            let response = await this.model.create({ id: id, timestamp: Date.now(), products: [] });
+            return response
 
         }
         catch (error) {
             //console.log(error)
-            winston.errorLogger.error(error)
+
+            return { status: "error", error: error }
         }
     }
 
     async deleteCart(id) {
         try {
-            await this.model.findOneAndDelete({ id });
+            let response = await this.model.findOneAndDelete({ id });
+
+            //console.log(asd);
+            return response
+
         }
         catch (error) {
             //console.log(error)
-            winston.errorLogger.error(error)
+
+            return { status: "error", error: error }
+
         }
     }
 
     async updateCart(id, products) {
         try {
-            await this.model.findOneAndUpdate({ id: id }, { products: products });
+            let response = await this.model.findOneAndUpdate({ id: id }, { products: products });
+            return response
 
         } catch (error) {
-            winston.errorLogger.error(error)
+
+            return { status: "error", error: error }
         }
     }
-
-    // async addProduct(id, product) {
-    //     try {
-    //         let cart = await this.getCart(id);
-    //         if (!cart) {
-    //             return 'Carro inexistente';
-    //         } else {
-    //             let products = cart.products;
-    //             let productId = products.find(prod => prod.id === product.id);
-    //             if (productId) {
-    //                 productId.quantity += 1;
-    //             } else {
-    //                 products.push({ id: product.id, timestamp: Date.now(), quantity: 1 });
-    //             }
-    //             await this.model.findOneAndUpdate({ id: id }, { products: products });
-
-    //         }
-    //     }
-    //     catch (error) {
-    //         //console.log(error)
-    //         winston.errorLogger.error(error)
-    //     }
-
-
-
-    // }
-
-    // async removeProduct(id, product) {
-    //     try {
-    //         let cart = await this.getCart(id);
-    //         if (!cart) {
-    //             return 'Carro inexistente';
-    //         } else {
-    //             let products = cart.products;
-    //             let productId = products.find(prod => prod.id === product);
-    //             if (productId) {
-    //                 if (productId.quantity > 1) {
-    //                     productId.quantity -= 1;
-    //                 } else {
-    //                     products = products.filter(prod => prod.id !== product);
-    //                 }
-    //             }
-    //             await this.model.findOneAndUpdate({ id: id }, { products: products });
-
-    //         }
-    //     }
-    //     catch (error) {
-    //         //console.log(error)
-    //         winston.errorLogger.error(error)
-    //     }
-    // }
-
-
-
 }
 
 

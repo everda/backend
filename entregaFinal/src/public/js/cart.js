@@ -3,13 +3,13 @@
 let url = 'localhost:8080';
 
 let btn = document.getElementById("sendBtn");
+let emptyBtn = document.getElementById("emptyCart");
 
 
 let cartId = sessionStorage.getItem("cartId");
 
 const sendCart = async () => {
     try {
-        console.log(cartId);
         const response = await fetch(`http://${url}/api/carts/${cartId}/confirm`, {
             method: 'get',
             headers: {
@@ -17,8 +17,22 @@ const sendCart = async () => {
             }
         });
         const data = await response.json();
-        
         return data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const emptyCart = async () => {
+    try {
+        console.log(cartId);
+        const response = await fetch(`http://${url}/api/carts/${cartId}`, {
+            method: 'delete',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const data = await response.json();
 
     } catch (error) {
         console.log(error);
@@ -27,8 +41,16 @@ const sendCart = async () => {
 
 btn.addEventListener("click", () => {
     sendCart()
-    window.location= `http://${url}/cart/${cartId}/confirmation`
+    sessionStorage.clear();
+    window.location = `http://${url}/cart/${cartId}/confirmation`
 })
+
+emptyBtn.addEventListener("click", () => {
+    emptyCart()
+    sessionStorage.clear()
+    window.location = `http://${url}/`
+})
+
 
 
 // const deleteProduct = async (id) => {

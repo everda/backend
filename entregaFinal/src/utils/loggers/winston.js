@@ -4,6 +4,7 @@ let winston = require('winston')
 let consoleLogger = winston.createLogger({
     level: "info",
     format: winston.format.combine(
+        winston.format.errors({ stack: true }),
         winston.format.timestamp(),
         winston.format.json()
     ),
@@ -15,6 +16,7 @@ let consoleLogger = winston.createLogger({
 let warningLogger = winston.createLogger({
     level: "warn",
     format: winston.format.combine(
+        winston.format.errors({ stack: true }),
         winston.format.timestamp(),
         winston.format.json()
     ),
@@ -28,6 +30,7 @@ let warningLogger = winston.createLogger({
 let errorLogger = winston.createLogger({
     level: "error",
     format: winston.format.combine(
+        winston.format.errors({ stack: true }),
         winston.format.timestamp(),
         winston.format.json()
     ),

@@ -19,7 +19,8 @@ submit.addEventListener('click', (e) => {
 
         }).then(response => response.json())
             .then(data => {
-                document.cookie = `token=${data.token}`
+                //document.cookie = `token=${data.token}`
+                //document.cookie = `refresh_token=${data.refreshToken}`
                 // let headers = new Headers()
                 // headers.append('Authoriozation', data.token)
                 window.location.href = '/home'

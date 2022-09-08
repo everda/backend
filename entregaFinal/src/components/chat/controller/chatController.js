@@ -1,18 +1,19 @@
-const dbdata = require('../services/messageModelMongo')
+//const dbdata = require('../services/messageModelMongo')
 let { schema, normalize, denormalize } = require('normalizr');
 const winston = require('../../../utils/loggers/winston')
 
 const authorSchema = new schema.Entity('author', {}, { idAttribute: 'email' });
 //const mensaje = new schema.Entity('message', {author }, 'text');
 const chatSchema = new schema.Entity('chat', { mensajes: [{ author: authorSchema }] });
+const ChatService = require('../services/chatService')
 
 
 let getNormalizedChatLog = async () => {
     try {
-        let chatLog = await dbdata.getMessages();
-
+        let chatLog = await ChatService.getMessages();
+        //console.log(chatLog);
         let response = normalize(chatLog, chatSchema);
-
+        //console.log(response);
         return response
     } catch (error) {
         winston.errorLogger.error(error)

@@ -1,7 +1,6 @@
 //const faker = require('faker');
 
 const MongoModel = require('../mongoDAO');
-const winston = require('../../../../utils/loggers/winston')
 const { productSchema } = require('./productSchema');
 
 class productDao extends MongoModel {
@@ -16,7 +15,7 @@ class productDao extends MongoModel {
             return response;
 
         } catch (error) {
-            winston.errorLogger.error(error)
+            return { status: "error", error: error }
         }
 
     }
@@ -25,13 +24,9 @@ class productDao extends MongoModel {
         try {
 
             let response = await this.model.findOne({ id: id });
-            if (response === null) {
-                return ('Producto inexistente');
-            } else {
-                return response;
-            }
+            return response
         } catch (error) {
-            winston.errorLogger.error(error)
+            return { status: "error", error: error }
         }
     }
 
@@ -43,17 +38,18 @@ class productDao extends MongoModel {
 
             return response;
         } catch (error) {
-            winston.errorLogger.error(error)
+            return { status: "error", error: error }
         }
     }
 
 
     async updateProduct(id, product) {
         try {
-            let response = await this.model.findOneAndUpdate({ id: id }, product);
+            await this.model.findOneAndUpdate({ id: id }, product);
+            let response = this.getProduct(id)
             return response;
         } catch (error) {
-            winston.errorLogger.error(error)
+            return { status: "error", error: error }
         }
 
     }
@@ -63,11 +59,11 @@ class productDao extends MongoModel {
             let response = await this.model.findOneAndDelete({ id });
             return response;
         } catch (error) {
-            winston.errorLogger.error(error)
+            return { status: "error", error: error }
         }
 
     }
 }
 
 
-module.exports = new productDao ()
+module.exports = new productDao()

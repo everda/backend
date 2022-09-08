@@ -38,9 +38,6 @@ let author = {};
 //     startChat()
 // }
 // );
-
-fetch('/loginInfo')
-
 fetch('/loginInfo', {
     method: 'get',
     headers: {
@@ -49,8 +46,8 @@ fetch('/loginInfo', {
 
 }).then(res => res.json())
     .then(response => {
-        console.log(response.message);
-        let {name, lastname, username} = JSON.parse(response.message)
+        console.log(response.user);
+        let {name, lastname, username} = JSON.parse(response.user)
         let age = 33;
         let avatar = "https://i.pravatar.cc/100";
         let alias = response.username;
@@ -81,9 +78,9 @@ const chatSchema = new normalizr.schema.Entity('chat', { mensajes: [{ author: au
 
 const startChat = () => {
     /*Socket events*/
-    console.log("entro")
+    //console.log("entro")
     socket.emit('init', author);
-    console.log(author);
+    //console.log(author);
     socket.on("log", (data) => {
         
         let mensajes = "";

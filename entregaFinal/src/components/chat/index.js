@@ -3,12 +3,16 @@ const chatController = require('./controller/chatController')
 const { Server } = require('socket.io')
 
 
-module.exports = server => {
-    const io = new Server(server);
+module.exports = async (app) => {
+
+
+    const io = new Server(app);
     let chatNormalizado = await chatController.getNormalizedChatLog()
+    console.log(chatNormalizado);
     io.on("connection", socket => {
         winston.consoleLogger.info("cliente conectado")
         socket.on('init', () => {
+            console.log(chatNormalizado);
             socket.emit("log", chatNormalizado);
         });
         socket.on("mensaje", async (data) => {
@@ -19,7 +23,6 @@ module.exports = server => {
         );
     }
     );
-
 
 }
 

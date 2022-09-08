@@ -8,42 +8,76 @@ const generateToken = async (user) => {
         user: user,
         timestamp: Date.now()
     }
-    let options = { expiresIn: "2h" }
-    return JWT.sign(payload, config.private_key, options)
+    let options = { expiresIn: config.session_time }
+    let token = JWT.sign(payload, config.private_key, options)
+
+    return token
 
 }
 
-const refreshToken = async (user) => {
-    let payload = {
+const generateRefreshToken = async (user) => {
+    let refreshPayload = {
         user: user,
         timestamp: Date.now()
     }
-    let options = { expiresIn: "1y" }
-    return JWT.sign(payload, config.refresh_private_key, options)
-
+    let refreshOptions = {
+        expiresIn: "1y",
+        audience: user
+    }
+    let refreshToken = JWT.sign(refreshPayload, config.refresh_private_key, refreshOptions)
+    return refreshToken
 }
 
+
+const validateToken = async (token) => {
+    try {
+
+        //if (req.headers['authorization']) {
+        // let authHeader = req.headers['authorization']
+        // let bearerToken = authHeader.split(' ')
+        //let token = bearerToken[1]
+        let response = JWT.verify(token, config.private_key);
+        //console.log(response);
+        return { status: "success", user: response.user }
+
+    } catch (error) {
+        return { status: "error", message: error }
+    }
+}
+
+
+// const verifyRefreshToken = async (refreshedToken) => {
+//     try {
+//         //if (req.headers['authorization']) {
+//         // let authHeader = req.headers['authorization']
+//         // let bearerToken = authHeader.split(' ')
+//         //let token = bearerToken[1]
+//         let result = JWT.verify(refreshedToken, config.refresh_private_key);
+
+
+//         return true
+//     } catch (error) {
+//         return false
+//     }
+// }
 
 const Islogged = async (req, res, next) => {
     try {
         if (req.cookies.token) {
             let response = await validateToken(req.cookies.token)
-            if (response) {
+            if (response.status === "success") {
+                req.user = response.user.user
+                let newToken = await generateToken(req.user)
+                res.cookie('token', newToken)
                 res.redirect('/home')
             }
+            else { next() }
         }
         else {
-            if (req.cookies.refreshToken) {
-                let response  = refreshToken)
-                res.redirect('/home')
-            }
-            else {
-                res.redirect('/login')
-            }
+            next()
         }
-
     } catch (error) {
-
+        winston.errorLogger(error)
     }
 
 
@@ -53,36 +87,26 @@ const IsNotlogged = async (req, res, next) => {
     try {
         if (req.cookies.token) {
             let response = await validateToken(req.cookies.token)
-            if (response) {
+            if (response.status === "success") {
+                req.user = response.user
+                let newToken = await generateToken(req.user)
+                res.cookie('token', newToken)
                 next()
             }
-
+            else { res.redirect('/login') }
         }
         else {
             res.redirect('/login')
         }
-
     } catch (error) {
+        
+
 
     }
-
-
 }
-
-const validateToken = async (token) => {
-    try {
-        //if (req.headers['authorization']) {
-        // let authHeader = req.headers['authorization']
-        // let bearerToken = authHeader.split(' ')
-        //let token = bearerToken[1]
-        JWT.verify(token, config.private_key);
-        return true
-    } catch (error) {
-        return false
-    }
-}
-
 module.exports = {
     generateToken,
-    validateToken
+    generateRefreshToken,
+    Islogged,
+    IsNotlogged
 }

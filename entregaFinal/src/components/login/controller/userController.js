@@ -1,8 +1,8 @@
 const winston = require('../../../utils/loggers/winston')
 const userService = require('../services/userService')
 const { authSchema, authRegSchema } = require('../../../utils/validator/validationSchema')
-const { generateToken, validateToken } = require('../../../utils/JWT/jwt')
-const { isJsxClosingFragment, CompletionTriggerKind } = require('typescript')
+const { generateToken, validateToken, generateRefreshToken } = require('../../../utils/JWT/jwt')
+
 
 
 class userController {
@@ -13,10 +13,18 @@ class userController {
             if (response) {
 
                 let response = await userService.registerUser(req.body)
-                console.log(response);
+                //console.log(response);
                 if (response.status === "ok") {
-                    let token = await generateToken(req.body.username)
-                    res.setHeader("autorization", "bearer " + token);
+                    let token = await generateToken(username)
+                    let refreshToken = await generateRefreshToken(username)
+                    res.cookie('token', token)
+                    res.cookie('refresh_token', refreshToken)
+                    res.send({
+                        message: 'User logged',
+                        user: response,
+                        //    token: token,
+                        //refreshToken: refreshToken
+                    })
 
 
                 }
@@ -38,16 +46,19 @@ class userController {
             let response = await authSchema.validateAsync(req.body)
             if (response) {
                 let response = await userService.validateLogin(username, password)
-                console.log(response);
+                //console.log(response);
                 if (response.status === "ok") {
-                    
                     let token = await generateToken(username)
+                    let refreshToken = await generateRefreshToken(username)
                     console.log(token);
-                    
+                    res.cookie('token', token)
+                    res.cookie('refresh_token', refreshToken)
                     res.send({
                         message: 'User logged',
                         user: response,
-                        token: token
+                        token: token,
+
+                        //refreshToken: refreshToken
                     })
                 }
                 else {
@@ -66,8 +77,9 @@ class userController {
 
     async logOutUser(req, res, next) {
         try {
-            req.session.destroy();
-            next()
+            res.clearCookie("token");
+            res.clearCookie("refresh_token");
+            res.redirect('/logout')
         } catch (error) {
             winston.errorLogger.error(error)
         }
@@ -100,6 +112,7 @@ class userController {
 
     async getUserInfo(req, res, next) {
         try {
+            //console.log(req.user);
             let response = await userService.getUsername(req.user)
             res.send({
                 message: "ok",
@@ -111,31 +124,5 @@ class userController {
     }
 
 
-    async loginPage(req, res, next) {
-        try {
-            
-            res.render('login.handlebars', { title: 'Login Ecommerce' })
-        } catch (error) {
-            winston.errorLogger.error(error)
-        }
-    }
-
-
-    async registerPage(req, res) {
-        try {
-            res.render('register.handlebars', { title: 'Register Ecommerce' })
-        } catch (error) {
-            winston.errorLogger.error(error)
-        }
-    }
-
-    async homePage(req, res) {
-        try {
-            console.log("hola");
-            res.render('home.handlebars', { title: 'Register Ecommerce' })
-        } catch (error) {
-            winston.errorLogger.error(error)
-        }
-    }
 }
 module.exports = new userController()
